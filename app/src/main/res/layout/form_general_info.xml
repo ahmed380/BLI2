@@ -1,0 +1,37 @@
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        style="@style/form_page_root_view">
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_date" />
+        <Button
+            android:textAllCaps="false"
+            android:background="?android:attr/selectableItemBackground"
+            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/date"
+            android:text="@string/date_picker_prompt"/>
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_policy"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/policy"
+            android:entries="@array/policy_options"/>
+
+
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>
+

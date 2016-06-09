@@ -1,0 +1,105 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/form_page_root_view">
+
+        <!--************************************************-->
+        <!--name surname middleName-->
+
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_name" />
+
+        <EditText
+            android:id="@+id/name"
+            style="@style/form_field" />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_surname" />
+
+        <EditText
+            android:id="@+id/surname"
+            style="@style/form_field" />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_middleName" />
+
+        <EditText
+            android:id="@+id/middleName"
+            style="@style/form_field" />
+
+
+        <!--************************************************-->
+        <!--address city state zip-->
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_address" />
+        <EditText
+            android:id="@+id/address"
+            style="@style/form_field" />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_city" />
+        <EditText
+            android:id="@+id/city"
+            style="@style/form_field" />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_state" />
+
+        <Spinner
+            android:id="@+id/state"
+            android:entries="@array/us_states_options"
+            style="@style/form_spinner" />
+
+
+
+
+
+
+        <!--************************************************-->
+        <!--email fax phone-->
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_email" />
+
+        <EditText
+            android:id="@+id/email"
+            style="@style/form_field"
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_fax" />
+
+        <EditText
+            android:id="@+id/fax"
+            style="@style/form_field" />
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_phone" />
+
+        <EditText
+            android:id="@+id/phone"
+            style="@style/form_field"
+            android:inputType="phone" />
+
+
+    </LinearLayout>
+
+
+</ScrollView>

@@ -1,0 +1,129 @@
+<resources>
+    <string name="app_name">Compass Insurance</string>
+
+
+
+    <!--Form field definitions-->
+    <!--InsuredInfo-->
+    <string name="label_name">First Name</string>
+    <string name="label_surname">Surname</string>
+    <string name="label_middleName">Middle Name</string>
+    <string name="label_address">Address</string>
+    <string name="label_city">City</string>
+    <string name="label_state">State</string>
+    <string name="label_zip">ZIP</string>
+    <string name="label_email">Email</string>
+    <string name="label_phone">Phone</string>
+    <string name="label_fax">Fax</string>
+
+    <!-- GeneralInfo-->
+    <string name="label_date">Effective Date</string>
+    <string name="label_policy">Policy Term</string>
+    <string name="label_nOfCars">No. of Cars</string>
+    <string name="label_nOfDrivers">No. of Drivers</string>
+    <string name="label_nOfExclusions">No. of Exclusions</string>
+
+
+    <!-- Coverages -->
+    <string name="label_nonOwner">Non-owner</string>
+    <string name="label_liability">Liability</string>
+    <string name="label_medicalPayments">Medical Payments</string>
+    <string name="label_umBi">UM/UIM BI</string>
+    <string name="label_uninsuredPd">Uninsured PD</string>
+    <string name="label_death">Accidental Death</string>
+    <string name="label_legalExpense">Legal expense</string>
+
+    <!--VehicleInfo-->
+    <string name="label_carType">Car Type</string>
+    <string name="label_vin">VIN</string>
+    <string name="label_modelYear">Model Year</string>
+    <string name="label_make">Make</string>
+    <string name="label_model">Model</string>
+    <string name="label_vehicleZip">ZIP</string>
+    <string name="label_vehicleCountry">Country</string>
+    <string name="label_vehicleCity">City</string>
+    <string name="label_vehicleRegion">Region</string>
+
+    <!--VehicleCoverage-->
+    <string name="label_comprehensive">Comprehensive</string>
+    <string name="label_towingLimit">Towing Limit</string>
+    <string name="label_customEquipment">Custom Equipment</string>
+    <string name="label_collision">Collision</string>
+    <string name="label_rentalLimit">Rental Limit</string>
+    <string name="label_gap">Gap</string>
+    <string name="date_picker_prompt">Tap to select date</string>
+
+
+    <!--Spinner entries-->
+    <string-array name="us_states_options">
+        <item>Choose your state</item>
+        <item>Alabama,AL</item>
+        <item>Alaska,AK</item>
+        <item>American Samoa,AS</item>
+        <item>Arizona,AZ</item>
+        <item>Arkansas,AR</item>
+        <item>California,CA</item>
+        <item>Colorado,CO</item>
+        <item>Connecticut,CT</item>
+        <item>Delaware,DE</item>
+        <item>District of Columbia,DC</item>
+        <item>Florida,FL</item>
+        <item>Georgia,GA</item>
+        <item>Guam,GU</item>
+        <item>Hawaii,HI</item>
+        <item>Idaho,ID</item>
+        <item>Illinois,IL</item>
+        <item>Indiana,IN</item>
+        <item>Iowa,IA</item>
+        <item>Kansas,KS</item>
+        <item>Kentucky,KY</item>
+        <item>Louisiana,LA</item>
+        <item>Maine,ME</item>
+        <item>Maryland,MD</item>
+        <item>Massachusetts,MH</item>
+        <item>Michigan,MI</item>
+        <item>Micronesia,FM</item>
+        <item>Minnesota,MN</item>
+        <item>Mississippi,MS</item>
+        <item>Missouri,MO</item>
+        <item>Montana,MT</item>
+        <item>Nebraska,NE</item>
+        <item>Nevada,NV</item>
+        <item>New Hampshire,NH</item>
+        <item>New Jersey,NJ</item>
+        <item>New Mexico,NM</item>
+        <item>New York,NY</item>
+        <item>North Carolina,NC</item>
+        <item>North Dakota,ND</item>
+        <item>Northern Marianas Islands,MP</item>
+        <item>Ohio,OH</item>
+        <item>Oklahoma,OK</item>
+        <item>Oregon,OR</item>
+        <item>Palau,PW</item>
+        <item>Pennsylvania,PA</item>
+        <item>Puerto Rico,PR</item>
+        <item>Rhode Island,RI</item>
+        <item>South Carolina,SC</item>
+        <item>South Dakota,SD</item>
+        <item>Tennessee,TN</item>
+        <item>Texas,TX</item>
+        <item>Utah,UT</item>
+        <item>Vermont,VT</item>
+        <item>Virginia,VA</item>
+        <item>Virgin Islands,VI</item>
+        <item>Washington,WA</item>
+        <item>West Virginia,WV</item>
+        <item>Wisconsin,WI</item>
+        <item>Wyoming,WY</item>
+    </string-array>
+
+
+    <string-array name="policy_options">
+        <item>Choose a policy option</item>
+        <item>Annual</item>
+    </string-array>
+
+
+
+
+</resources>

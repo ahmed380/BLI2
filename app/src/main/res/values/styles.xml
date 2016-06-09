@@ -1,0 +1,50 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="form_page_root_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+
+    <style name="form_label">
+        <item name="android:layout_marginTop">@dimen/form_label_vertical_margin</item>
+        <item name="android:paddingLeft">@dimen/form_padding</item>
+        <item name="android:paddingRight">@dimen/form_padding</item>
+        <item name="android:paddingTop">@dimen/form_label_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/form_label_vertical_padding</item>
+        <item name="android:background">#eeeeee</item>
+        <item name="android:textSize">@dimen/form_label_text_size</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="form_field">
+        <item name="android:layout_marginRight">@dimen/form_padding</item>
+        <item name="android:layout_marginLeft">@dimen/form_padding</item>
+        <item name="android:inputType">text</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="form_spinner">
+        <item name="android:layout_marginRight">@dimen/form_padding</item>
+        <item name="android:layout_marginLeft">@dimen/form_padding</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+    </style>
+
+
+
+    <dimen name="form_element_vertical_margin">20dp</dimen>
+    <dimen name="form_label_vertical_padding">4dp</dimen>
+    <dimen name="form_label_vertical_margin">10dp</dimen>
+</resources>
