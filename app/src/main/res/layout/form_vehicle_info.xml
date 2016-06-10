@@ -1,37 +1,97 @@
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/form_padding">
+
+    <LinearLayout style="@style/form_page_root_view">
 
 
+        <TextView
+            android:id="@+id/label_carType"
+            style="@style/form_label"
+            android:text="@string/label_carType" />
+
+        <Spinner
+            android:id="@+id/carType"
+            style="@style/form_spinner"
+            android:entries="@array/nonOwner_options" />
+
+        <TextView
+            android:id="@+id/label_vin"
+            style="@style/form_label"
+            android:text="@string/label_vin" />
+
+        <EditText
+            android:id="@+id/vin"
+            style="@style/form_field" />
+
+        <TextView
+            android:id="@+id/label_modelYear"
+            style="@style/form_label"
+            android:text="@string/label_modelYear" />
+
+        <Spinner
+            android:id="@+id/modelYear"
+            style="@style/form_spinner"
+            android:entries="@array/nonOwner_options" />
+
+        <TextView
+            android:id="@+id/label_make"
+            style="@style/form_label"
+            android:text="@string/label_make" />
+
+        <Spinner
+            android:id="@+id/make"
+            style="@style/form_spinner"
+            android:entries="@array/nonOwner_options" />
+
+        <TextView
+            android:id="@+id/label_model"
+            style="@style/form_label"
+            android:text="@string/label_model" />
+
+        <Spinner
+            android:id="@+id/model"
+            style="@style/form_spinner"
+            android:entries="@array/nonOwner_options" />
 
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/label_vehicleZip"
+            style="@style/form_label"
+            android:text="@string/label_vehicleZip" />
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+        <EditText
+            android:id="@+id/vehicleZip"
+            style="@style/form_field" />
 
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/label_zip" />
+        <TextView
+            android:id="@+id/label_vehicleCountry"
+            style="@style/form_label"
+            android:text="@string/label_vehicleCountry" />
 
-            <Spinner
-                android:id="@+id/spinner"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:entries="@array/us_states_options" />
+        <EditText
+            android:id="@+id/vehicleCountry"
+            style="@style/form_field" />
 
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/label_vehicleCity"
+            style="@style/form_label"
+            android:text="@string/label_vehicleCity" />
 
+        <EditText
+            android:id="@+id/vehicleCity"
+            style="@style/form_field" />
+
+
+        <TextView
+            android:id="@+id/label_vehicleRegion"
+            style="@style/form_label"
+            android:text="@string/label_vehicleRegion" />
+
+        <EditText
+            android:id="@+id/vehicleRegion"
+            style="@style/form_field" />
 
     </LinearLayout>
 

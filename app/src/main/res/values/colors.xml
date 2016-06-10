@@ -3,4 +3,9 @@
     <color name="colorPrimary">#22a472</color>
     <color name="colorPrimaryDark">#1b845c</color>
     <color name="colorAccent">#199765</color>
+
+
+    <color name="label_default_background">#eeeeee</color>
+    <color name="label_error_background">#efc7c7</color>
+    <color name="drawer_background">#1b845c</color>
 </resources>

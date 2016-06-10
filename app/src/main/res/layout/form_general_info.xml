@@ -6,6 +6,7 @@
         style="@style/form_page_root_view">
 
         <TextView
+            android:id="@+id/label_date"
             style="@style/form_label"
             android:text="@string/label_date" />
         <Button
@@ -19,6 +20,7 @@
 
 
         <TextView
+            android:id="@+id/label_policy"
             style="@style/form_label"
             android:text="@string/label_policy"/>
         <Spinner
@@ -26,7 +28,34 @@
             android:id="@+id/policy"
             android:entries="@array/policy_options"/>
 
+        <TextView
+            android:id="@+id/label_nOfCars"
+            style="@style/form_label"
+            android:text="@string/label_nOfCars"/>
+        <EditText
+            style="@style/form_field"
+            android:inputType="number"
+            android:id="@+id/nOfCars"/>
 
+
+        <TextView
+            android:id="@+id/label_nOfDrivers"
+            style="@style/form_label"
+            android:text="@string/label_nOfDrivers"/>
+        <EditText
+            style="@style/form_field"
+            android:inputType="number"
+            android:id="@+id/nOfDrivers"/>
+
+
+        <TextView
+            android:id="@+id/label_nOfExclusions"
+            style="@style/form_label"
+            android:text="@string/label_nOfExclusions"/>
+        <EditText
+            style="@style/form_field"
+            android:inputType="number"
+            android:id="@+id/nOfExclusions"/>
 
 
 

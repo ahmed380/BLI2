@@ -5,6 +5,7 @@ package com.smehsn.compassinsurance.model;
  */
 public class VehicleInfo {
     private String carType;
+    @RequiredField
     private String vin;
     private String modelYear;
     private String make;

@@ -22,7 +22,7 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
             R.layout.form_general_info,
             R.layout.form_coverages,
             R.layout.form_vehicle_info,
-            R.layout.form_vehicle_coverage
+            R.layout.form_vehicle_coverages
     };
 
     public static final int ITEMS_COUNT = PAGE_TITLES.length;
@@ -34,7 +34,7 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return ITEMS_COUNT;
     }
 
     @Override

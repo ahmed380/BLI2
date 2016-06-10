@@ -2,7 +2,6 @@
     <string name="app_name">Compass Insurance</string>
 
 
-
     <!--Form field definitions-->
     <!--InsuredInfo-->
     <string name="label_name">First Name</string>
@@ -44,7 +43,7 @@
     <string name="label_vehicleCity">City</string>
     <string name="label_vehicleRegion">Region</string>
 
-    <!--VehicleCoverage-->
+    <!--VehicleCoverages-->
     <string name="label_comprehensive">Comprehensive</string>
     <string name="label_towingLimit">Towing Limit</string>
     <string name="label_customEquipment">Custom Equipment</string>
@@ -123,7 +122,24 @@
         <item>Annual</item>
     </string-array>
 
+    <string-array name="nonOwner_options">
+        <item>Choose an option</item>
+        <item>Yes</item>
+        <item>No</item>
+    </string-array>
 
+
+    <string-array name="coverage_options">
+        <item>Choose an option</item>
+        <item>No Coverage</item>
+        <item>With Coverage</item>
+    </string-array>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 
 
 </resources>

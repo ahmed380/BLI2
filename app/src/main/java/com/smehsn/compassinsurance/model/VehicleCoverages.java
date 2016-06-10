@@ -1,11 +1,12 @@
 package com.smehsn.compassinsurance.model;
 
 
-public class VehicleCoverage {
+public class VehicleCoverages {
     private String comprehensive;
     private String towingLimit;
     private String customEquipment;
     private String collision;
     private String rentalLimit;
+    @RequiredField
     private String gap;
 }

@@ -22,7 +22,7 @@ public class DateDialog extends DialogFragment
     }
 
     public interface OnDateSetListener{
-        public void onDateSet(String date);
+        void onDateSet(String date);
     }
 
 

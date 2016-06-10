@@ -12,27 +12,27 @@
 
 
         <TextView
+            android:id="@+id/label_name"
             style="@style/form_label"
             android:text="@string/label_name" />
-
         <EditText
             android:id="@+id/name"
             style="@style/form_field" />
 
 
         <TextView
+            android:id="@+id/label_surname"
             style="@style/form_label"
             android:text="@string/label_surname" />
-
         <EditText
             android:id="@+id/surname"
             style="@style/form_field" />
 
 
         <TextView
+            android:id="@+id/label_middleName"
             style="@style/form_label"
             android:text="@string/label_middleName" />
-
         <EditText
             android:id="@+id/middleName"
             style="@style/form_field" />
@@ -41,6 +41,7 @@
         <!--************************************************-->
         <!--address city state zip-->
         <TextView
+            android:id="@+id/label_address"
             style="@style/form_label"
             android:text="@string/label_address" />
         <EditText
@@ -49,6 +50,7 @@
 
 
         <TextView
+            android:id="@+id/label_city"
             style="@style/form_label"
             android:text="@string/label_city" />
         <EditText
@@ -57,15 +59,21 @@
 
 
         <TextView
+            android:id="@+id/label_state"
             style="@style/form_label"
             android:text="@string/label_state" />
-
         <Spinner
             android:id="@+id/state"
             android:entries="@array/us_states_options"
             style="@style/form_spinner" />
 
-
+        <TextView
+            android:id="@+id/label_zip"
+            style="@style/form_label"
+            android:text="@string/label_zip" />
+        <EditText
+            android:id="@+id/zip"
+            style="@style/form_field" />
 
 
 
@@ -73,6 +81,7 @@
         <!--************************************************-->
         <!--email fax phone-->
         <TextView
+            android:id="@+id/label_email"
             style="@style/form_label"
             android:text="@string/label_email" />
 
@@ -82,6 +91,7 @@
             android:inputType="textEmailAddress" />
 
         <TextView
+            android:id="@+id/label_fax"
             style="@style/form_label"
             android:text="@string/label_fax" />
 
@@ -90,6 +100,7 @@
             style="@style/form_field" />
 
         <TextView
+            android:id="@+id/label_phone"
             style="@style/form_label"
             android:text="@string/label_phone" />
 

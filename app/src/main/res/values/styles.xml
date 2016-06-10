@@ -12,6 +12,8 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:orientation">vertical</item>
+        <item name="android:descendantFocusability">beforeDescendants</item>
+        <item name="android:focusableInTouchMode">true</item>
     </style>
 
     <style name="form_label">
@@ -20,7 +22,7 @@
         <item name="android:paddingRight">@dimen/form_padding</item>
         <item name="android:paddingTop">@dimen/form_label_vertical_padding</item>
         <item name="android:paddingBottom">@dimen/form_label_vertical_padding</item>
-        <item name="android:background">#eeeeee</item>
+        <item name="android:background">@color/label_default_background</item>
         <item name="android:textSize">@dimen/form_label_text_size</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_width">match_parent</item>
@@ -42,9 +44,14 @@
         <item name="android:layout_height">50dp</item>
     </style>
 
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
 
-    <dimen name="form_element_vertical_margin">20dp</dimen>
-    <dimen name="form_label_vertical_padding">4dp</dimen>
-    <dimen name="form_label_vertical_margin">10dp</dimen>
 </resources>

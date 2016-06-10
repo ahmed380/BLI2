@@ -1,23 +1,75 @@
 <ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
         style="@style/form_page_root_view">
+        
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_nonOwner"
+            android:id="@+id/label_nonOwner"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/nonOwner"
+            android:entries="@array/nonOwner_options"/>
+
 
         <TextView
             style="@style/form_label"
-            android:text="@string/label_date" />
-
-        <Button
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_gravity="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/date"
-            android:text="@string/date_picker_prompt"/>
+            android:text="@string/label_liability"
+            android:id="@+id/label_liability"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/liability"
+            android:entries="@array/nonOwner_options"/>
 
 
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_medicalPayments"
+            android:id="@+id/label_medicalPayments"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/medicalPayments"
+            android:entries="@array/nonOwner_options"/>
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_umBi"
+            android:id="@+id/label_umBi"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/umBi"
+            android:entries="@array/nonOwner_options"/>
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_uninsuredPd"
+            android:id="@+id/label_uninsuredPd"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/uninsuredPd"
+            android:entries="@array/nonOwner_options"/>
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_death"
+            android:id="@+id/label_death"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/death"
+            android:entries="@array/nonOwner_options"/>
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_legalExpense"
+            android:id="@+id/label_legalExpense"/>
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/legalExpense"
+            android:entries="@array/nonOwner_options"/>
 
     </LinearLayout>
 
