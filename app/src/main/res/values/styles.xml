@@ -17,6 +17,7 @@
     </style>
 
     <style name="form_label">
+        <item name="android:freezesText">true</item>
         <item name="android:layout_marginTop">@dimen/form_label_vertical_margin</item>
         <item name="android:paddingLeft">@dimen/form_padding</item>
         <item name="android:paddingRight">@dimen/form_padding</item>

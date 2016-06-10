@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.fragment.FormFragment;
+import com.smehsn.compassinsurance.fragment.PaginatedFormFragment;
 
 
 public class FormPagerAdapter extends FragmentPagerAdapter {
@@ -44,6 +44,6 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return FormFragment.newInstance(LAYOUT_RES_IDS[position], PAGE_TITLES[position], position);
+        return PaginatedFormFragment.newInstance(LAYOUT_RES_IDS[position], PAGE_TITLES[position], position);
     }
 }

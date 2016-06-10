@@ -2,6 +2,6 @@ package com.smehsn.compassinsurance.fragment;
 
 
 public interface FormObjectProvider {
-    void validateForm(OnValidationResultListener result);
-    Object getFormModelObject();
+    Object getFormModelObject() throws ValidationException;
+    int getPagePosition();
 }

@@ -1,37 +1,33 @@
 package com.smehsn.compassinsurance.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.text.Html;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.util.Helper;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
 import com.smehsn.compassinsurance.fragment.FormObjectProvider;
-import com.smehsn.compassinsurance.fragment.OnValidationResultListener;
+import com.smehsn.compassinsurance.fragment.ValidationException;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.TreeMap;
 
 import butterknife.BindView;
@@ -51,6 +47,8 @@ public class CompleteFormActivity extends AppCompatActivity {
 
     @BindView(R.id.drawerListView)
     ListView drawerListView;
+
+    private FragmentPagerAdapter viewPagerAdapter;
 
     private boolean formContainsValidationErrors = false;
 
@@ -83,8 +81,8 @@ public class CompleteFormActivity extends AppCompatActivity {
     }
 
     private void initViewPager(){
-        FormPagerAdapter adapter = new FormPagerAdapter(getSupportFragmentManager());
-        viewPager.setAdapter(adapter);
+        viewPagerAdapter = new FormPagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(viewPagerAdapter);
         viewPager.setCurrentItem(0);
         viewPager.setOffscreenPageLimit(FormPagerAdapter.ITEMS_COUNT);
         changeActivityTitle();
@@ -113,7 +111,6 @@ public class CompleteFormActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 viewPager.setCurrentItem(position);
                 drawerLayout.closeDrawer(GravityCompat.START);
-
             }
         });
     }
@@ -142,22 +139,25 @@ public class CompleteFormActivity extends AppCompatActivity {
         //Store error pagePosition -> errorMessage mapping in order to
         //Change the position of viewPager to the first occurred error position
         final Map<Integer, String> positionToMessageMapping = new TreeMap<Integer, String>();
-
-
+        //Store pagePosition -> model object mapping to get sorted access
+        final Map<Integer, Object> positionToFormModelMapping = new TreeMap<>();
         //synchronous validation callback
-        OnValidationResultListener validationResultListener = new OnValidationResultListener() {
-            @Override
-            public void onValidationResultListener(boolean success, int pagePosition, String firstErrorMessage) {
-                if (!success){
-                    formContainsValidationErrors = true;
-                    positionToMessageMapping.put(pagePosition, firstErrorMessage);
-                }
-            }
-        };
 
-        for(Fragment f: fragmentList){
-            if (f != null && f instanceof FormObjectProvider && f.isAdded()){
-                ((FormObjectProvider)f).validateForm(validationResultListener);
+
+
+        for(Fragment fragment: fragmentList){
+            if (fragment != null && fragment instanceof FormObjectProvider && fragment.isAdded()){
+                try {
+                    FormObjectProvider provider = (FormObjectProvider)fragment;
+                    Object modelObject = provider.getFormModelObject();
+                    int position = provider.getPagePosition();
+                    positionToFormModelMapping.put(position, modelObject);
+
+                }
+                catch (ValidationException e) {
+                    formContainsValidationErrors = true;
+                    positionToMessageMapping.put(e.getPagePosition(), e.getValidationErrorMessage());
+                }
             }
         }
 
@@ -172,15 +172,37 @@ public class CompleteFormActivity extends AppCompatActivity {
                 viewPager.setCurrentItem(errorPagePosition);
             messageSnackbar.setText(errorMessage);
         }else {
-            messageSnackbar.setText("Forms are valid");
+            String emailBody = buildEmailBody(positionToFormModelMapping);
+            Intent emailIntent = new Intent(Intent.ACTION_SEND);
+            emailIntent.setType("message/rfc822");
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"samvel1024@gmail.com"});
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Report");
+            emailIntent.putExtra(Intent.EXTRA_TEXT, Html.fromHtml(emailBody));
+            startActivity(emailIntent);
         }
         if (triggeredByUser)
             messageSnackbar.show();
     }
 
+
+    private String buildEmailBody(Map<Integer, Object> positionToMessageMapping){
+        StringBuilder email = new StringBuilder();
+        for(Integer position: positionToMessageMapping.keySet()){
+            try {
+                email.append(Helper.objectToEmailBody(
+                        this,
+                        viewPagerAdapter.getPageTitle(position).toString(),
+                        positionToMessageMapping.get(position)));
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
+        }
+        return email.toString();
+    }
+
     @OnPageChange(R.id.viewPager)
     void changeActivityTitle(){
-        setTitle(viewPager.getAdapter().getPageTitle(viewPager.getCurrentItem()));
+        setTitle(viewPagerAdapter.getPageTitle(viewPager.getCurrentItem()));
     }
 
 }

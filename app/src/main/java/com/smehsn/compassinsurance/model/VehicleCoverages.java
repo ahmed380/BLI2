@@ -7,6 +7,5 @@ public class VehicleCoverages {
     private String customEquipment;
     private String collision;
     private String rentalLimit;
-    @RequiredField
     private String gap;
 }
