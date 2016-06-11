@@ -1,0 +1,208 @@
+package com.smehsn.compassinsurance.fragment;
+
+import android.app.Activity;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.model.PhotoAttachment;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+
+public class PhotoAttachmentFragment extends Fragment implements FormObjectProvider {
+    public static final  String TAG                   = PhotoAttachmentFragment.class.getSimpleName();
+    private static final int    REQUEST_IMAGE_CAPTURE = 1;
+
+    private Map<Integer, Uri> resIdImageUriMapping = new HashMap<>();
+
+    private String pageTitle;
+    private int    positionInViewPager;
+    private String currentRequestedAction;
+    private View   rootView;
+    private Uri    requestedImageUri;
+
+
+    @BindView(R.id.image_drivingLicensePhoto)
+    ImageView imageLicense;
+    @BindView(R.id.image_vinNumberPhoto)
+    ImageView imageVin;
+    public PhotoAttachmentFragment() {
+    }
+
+
+    public static PhotoAttachmentFragment newInstance(String pageTitle, int position) {
+        PhotoAttachmentFragment fragment = new PhotoAttachmentFragment();
+        fragment.pageTitle = pageTitle;
+        fragment.positionInViewPager = position;
+        return fragment;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("positionInViewPager", positionInViewPager);
+        outState.putString("pageTitle", pageTitle);
+        outState.putString("currentRequestedAction", currentRequestedAction);
+        outState.putParcelable("requestedImageUri", requestedImageUri);
+
+
+        if (resIdImageUriMapping != null) {
+            Bundle imageData = new Bundle();
+            for (Integer resId : resIdImageUriMapping.keySet()) {
+                imageData.putParcelable(resId.toString(), resIdImageUriMapping.get(resId));
+            }
+            outState.putBundle("resIdImageUriMapping", imageData);
+        }
+    }
+
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        restoreState(savedInstanceState);
+    }
+
+    private void restoreState(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            pageTitle = savedInstanceState.getString("pageTitle");
+            positionInViewPager = savedInstanceState.getInt("positionInViewPager");
+            currentRequestedAction = savedInstanceState.getString("currentRequestedAction");
+            requestedImageUri = savedInstanceState.getParcelable("requestedImageUri");
+
+            Bundle imageData = savedInstanceState.getBundle("resIdImageUriMapping");
+            if (imageData != null) {
+                for (String key : imageData.keySet()) {
+                    resIdImageUriMapping.put(Integer.parseInt(key), (Uri) imageData.get(key));
+                }
+            }
+
+        }
+    }
+
+    private void restoreImagesState() {
+        for (int resId : resIdImageUriMapping.keySet()) {
+            loadImageViewFromUri(resId, resIdImageUriMapping.get(resId));
+        }
+    }
+
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        super.onCreateView(inflater, container, savedInstanceState);
+        restoreState(savedInstanceState);
+        rootView = inflater.inflate(R.layout.form_photo_attachment, container, false);
+        ButterKnife.bind(this, rootView);
+        restoreImagesState();
+        return rootView;
+    }
+
+
+    @OnClick({
+            R.id.image_drivingLicensePhoto,
+            R.id.image_vinNumberPhoto,
+            R.id.action_vinNumberPhoto,
+            R.id.action_drivingLicensePhoto
+    })
+    public void onTakeImageAction(View v) {
+
+        currentRequestedAction = (String) v.getTag();
+        ContentValues values = new ContentValues();
+
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
+        requestedImageUri = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, requestedImageUri);
+        if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
+            getActivity().startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK) {
+
+            int targetImageViewResId = this.getResources().getIdentifier(
+                    "image_" + currentRequestedAction,
+                    "id",
+                    getContext().getPackageName());
+            resIdImageUriMapping.put(targetImageViewResId, requestedImageUri);
+            loadImageViewFromUri(targetImageViewResId, requestedImageUri);
+            requestedImageUri = null;
+        }
+    }
+
+
+    private void loadImageViewFromUri(int resId, Uri uri){
+        ImageView imageView = (ImageView) rootView.findViewById(resId);
+        new ImageUriLoaderTask().execute(uri, imageView);
+    }
+
+
+    private class ImageUriLoaderTask extends AsyncTask<Object, Void, Bitmap>{
+
+        private ImageView targetImageView;
+        @Override
+        protected Bitmap doInBackground(Object... params) {
+            Uri uri = (Uri) params[0];
+            targetImageView = (ImageView) params[1];
+            Bitmap bitmap = null;
+            try {
+                if (getContext() != null && getContext().getContentResolver() != null)
+                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            if (bitmap != null) {
+                targetImageView.setImageBitmap(bitmap);
+                targetImageView.setVisibility(View.VISIBLE);
+            }
+            super.onPostExecute(bitmap);
+        }
+    }
+
+
+    @Override
+    public Object getFormModelObject() throws ValidationException {
+        PhotoAttachment attachment = new PhotoAttachment();
+        attachment.setDrivingLicensePhoto((imageLicense.getDrawable() == null) ? "blank" : "Attached to the email");
+        attachment.setVinNumberPhoto((imageVin.getDrawable() == null) ? "blank" : "Attached to the email");
+        return attachment;
+    }
+
+    @Override
+    public int getPagePosition() {
+        return positionInViewPager;
+    }
+
+
+
+
+}

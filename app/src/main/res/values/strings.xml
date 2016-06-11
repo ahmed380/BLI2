@@ -50,7 +50,10 @@
     <string name="label_collision">Collision</string>
     <string name="label_rentalLimit">Rental Limit</string>
     <string name="label_gap">Gap</string>
-    <string name="date_picker_prompt">Tap to select date</string>
+
+    <!--PhotoAttachment-->
+    <string name="label_drivingLicensePhoto">Photo of driving license</string>
+    <string name="label_vinNumberPhoto">Photo of VIN number</string>
 
 
     <!--Spinner entries-->
@@ -134,12 +137,20 @@
         <item>No Coverage</item>
         <item>With Coverage</item>
     </string-array>
-    <string name="title_activity_main">MainActivity</string>
+
+
+    <!--App UI string resources-->
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
+    <string name="date_picker_prompt">Tap to select date</string>
+    <string name="photo_action_prompt">Tap to take a photo</string>
     <string name="action_settings">Settings</string>
+
+
+    <!--Email client settings-->
+    <string name="client_email_address">compass.insurance.client@gmail.com</string>
+    <string name="client_email_password">clientpassword</string>
 
 
 </resources>

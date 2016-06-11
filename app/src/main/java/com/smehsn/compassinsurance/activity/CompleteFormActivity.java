@@ -1,6 +1,7 @@
 package com.smehsn.compassinsurance.activity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
@@ -29,6 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.jar.Manifest;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,6 +64,8 @@ public class CompleteFormActivity extends AppCompatActivity {
         initDrawerListView();
     }
 
+
+
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
@@ -80,11 +84,12 @@ public class CompleteFormActivity extends AppCompatActivity {
         outState.putBoolean("formContainsValidationErrors", formContainsValidationErrors);
     }
 
+
     private void initViewPager(){
         viewPagerAdapter = new FormPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
-        viewPager.setCurrentItem(0);
-        viewPager.setOffscreenPageLimit(FormPagerAdapter.ITEMS_COUNT);
+        viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount());
+        viewPager.setCurrentItem(viewPagerAdapter.getCount()-1);
         changeActivityTitle();
     }
 
@@ -115,6 +120,18 @@ public class CompleteFormActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+        for (Fragment fragment: fragmentList ){
+            if (fragment != null && fragment.isAdded()){
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
@@ -141,7 +158,6 @@ public class CompleteFormActivity extends AppCompatActivity {
         final Map<Integer, String> positionToMessageMapping = new TreeMap<Integer, String>();
         //Store pagePosition -> model object mapping to get sorted access
         final Map<Integer, Object> positionToFormModelMapping = new TreeMap<>();
-        //synchronous validation callback
 
 
 
@@ -152,7 +168,6 @@ public class CompleteFormActivity extends AppCompatActivity {
                     Object modelObject = provider.getFormModelObject();
                     int position = provider.getPagePosition();
                     positionToFormModelMapping.put(position, modelObject);
-
                 }
                 catch (ValidationException e) {
                     formContainsValidationErrors = true;

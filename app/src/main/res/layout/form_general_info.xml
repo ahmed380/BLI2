@@ -10,11 +10,7 @@
             style="@style/form_label"
             android:text="@string/label_date" />
         <Button
-            android:textAllCaps="false"
-            android:background="?android:attr/selectableItemBackground"
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            style="@style/form_action_button"
             android:id="@+id/date"
             android:text="@string/date_picker_prompt"/>
 

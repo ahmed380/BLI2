@@ -7,6 +7,8 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="form_page_root_view">
         <item name="android:layout_width">match_parent</item>
@@ -14,6 +16,7 @@
         <item name="android:orientation">vertical</item>
         <item name="android:descendantFocusability">beforeDescendants</item>
         <item name="android:focusableInTouchMode">true</item>
+        <item name="android:paddingBottom">20dp</item>
     </style>
 
     <style name="form_label">
@@ -50,9 +53,24 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="form_action_button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="form_attachment_image">
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:contentDescription">@string/app_name</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">400dp</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 
 
 </resources>

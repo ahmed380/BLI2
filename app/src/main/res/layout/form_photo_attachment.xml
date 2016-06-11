@@ -1,0 +1,44 @@
+<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        style="@style/form_page_root_view">
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_drivingLicensePhoto"
+            android:id="@+id/label_drivingLicensePhoto"/>
+        <Button
+            android:tag="drivingLicensePhoto"
+            android:text="@string/photo_action_prompt"
+            style="@style/form_action_button"
+            android:id="@+id/action_drivingLicensePhoto"/>
+        <ImageView
+            android:visibility="gone"
+            android:tag="drivingLicensePhoto"
+            style="@style/form_attachment_image"
+            android:id="@+id/image_drivingLicensePhoto"/>
+
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_vinNumberPhoto"
+            android:id="@+id/label_vinNumberPhoto"/>
+        <Button
+            android:tag="vinNumberPhoto"
+            android:text="@string/photo_action_prompt"
+            style="@style/form_action_button"
+            android:id="@+id/action_vinNumberPhoto"/>
+        <ImageView
+            android:visibility="gone"
+            android:tag="drivingLicensePhoto"
+            style="@style/form_attachment_image"
+            android:id="@+id/image_vinNumberPhoto"/>
+
+
+
+    </LinearLayout>
+
+
+</ScrollView>

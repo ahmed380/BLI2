@@ -1,6 +1,12 @@
 package com.smehsn.compassinsurance.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -8,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +27,7 @@ import com.smehsn.compassinsurance.model.RequiredField;
 import com.smehsn.compassinsurance.model.VehicleCoverages;
 import com.smehsn.compassinsurance.model.VehicleInfo;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -123,7 +131,6 @@ public class PaginatedFormFragment extends Fragment implements FormObjectProvide
         datePicker.show(getFragmentManager(), "datePicker");
 
     }
-
 
     /**
      * Utility method to find child view of rootView by id Name
