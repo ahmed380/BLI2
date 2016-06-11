@@ -3,7 +3,6 @@ package com.smehsn.compassinsurance.model;
 
 
 public class InsuredInfo{
-
     private String name;
     private String surname;
     private String middleName;

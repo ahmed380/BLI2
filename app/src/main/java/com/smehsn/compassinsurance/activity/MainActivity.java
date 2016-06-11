@@ -1,6 +1,8 @@
 package com.smehsn.compassinsurance.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
@@ -14,20 +16,36 @@ import com.smehsn.compassinsurance.R;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String EMAIL_LIST_PREFERENCES = "email_list";
 
     private static final int REQUEST_PERMISSION_CODE = 123;
+    private SharedPreferences emailListPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        initAppMode();
+        initPreferenceSources();
+
         if(checkPermissions())
             openFormActivity();
     }
 
+    private void initPreferenceSources() {
+        emailListPreferences = getSharedPreferences(EMAIL_LIST_PREFERENCES, Context.MODE_PRIVATE);
+
+    }
+
+
+    private void initAppMode(){
+
+    }
 
     private void openFormActivity(){
         Intent intent = new Intent(this, CompleteFormActivity.class);

@@ -1,12 +1,6 @@
 package com.smehsn.compassinsurance.fragment;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -14,20 +8,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.dialog.DateDialog;
 import com.smehsn.compassinsurance.model.Coverages;
+import com.smehsn.compassinsurance.model.FormObjectProvider;
 import com.smehsn.compassinsurance.model.GeneralInfo;
 import com.smehsn.compassinsurance.model.InsuredInfo;
 import com.smehsn.compassinsurance.model.RequiredField;
 import com.smehsn.compassinsurance.model.VehicleCoverages;
 import com.smehsn.compassinsurance.model.VehicleInfo;
 
-import java.io.File;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +30,7 @@ import butterknife.OnClick;
 import butterknife.Optional;
 
 
-public class PaginatedFormFragment extends Fragment implements FormObjectProvider{
+public class PaginatedFormFragment extends Fragment implements FormObjectProvider {
 
     private static final Map<Integer, Class> FORM_MODEL_MAPPING;
     private static final String TAG = PaginatedFormFragment.class.getSimpleName();
@@ -171,7 +164,7 @@ public class PaginatedFormFragment extends Fragment implements FormObjectProvide
 
             boolean isFieldRequired = field.isAnnotationPresent(RequiredField.class);
             if (value != null){
-                value = value.replaceAll("\\s", "");
+                value = value.trim();
                 TextView labelTextView = (TextView) getViewByIdName("label_" + field.getName());
                 if(labelTextView == null)
                     throw new IllegalArgumentException("No label TextView for "+modelClass.getName() + ":" + field.getName());

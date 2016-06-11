@@ -3,6 +3,7 @@ package com.smehsn.compassinsurance.fragment;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -16,18 +17,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.model.AttachmentProvider;
+import com.smehsn.compassinsurance.model.FormObjectProvider;
 import com.smehsn.compassinsurance.model.PhotoAttachment;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class PhotoAttachmentFragment extends Fragment implements FormObjectProvider {
+public class PhotoAttachmentFragment extends Fragment implements FormObjectProvider, AttachmentProvider {
     public static final  String TAG                   = PhotoAttachmentFragment.class.getSimpleName();
     private static final int    REQUEST_IMAGE_CAPTURE = 1;
 
@@ -158,6 +166,30 @@ public class PhotoAttachmentFragment extends Fragment implements FormObjectProvi
     private void loadImageViewFromUri(int resId, Uri uri){
         ImageView imageView = (ImageView) rootView.findViewById(resId);
         new ImageUriLoaderTask().execute(uri, imageView);
+    }
+
+    @Override
+    public List<File> getAttachedFiles() {
+        List<File> files = new ArrayList<>();
+        for (Map.Entry<Integer, Uri> entry: resIdImageUriMapping.entrySet()){
+            if (entry != null && entry.getValue() != null)
+                files.add(new File(getRealPathFromURI(entry.getValue())));
+        }
+
+        return files;
+    }
+
+
+    public String getRealPathFromURI(Uri uri) {
+        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
+        if (cursor != null) {
+            cursor.moveToFirst();
+            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
+            String path = cursor.getString(idx);
+            cursor.close();
+            return path;
+        }
+        return null;
     }
 
 
