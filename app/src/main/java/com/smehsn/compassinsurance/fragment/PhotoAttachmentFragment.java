@@ -17,18 +17,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.model.AttachmentProvider;
-import com.smehsn.compassinsurance.model.FormObjectProvider;
-import com.smehsn.compassinsurance.model.PhotoAttachment;
+import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
+import com.smehsn.compassinsurance.form.AttachmentProvider;
+import com.smehsn.compassinsurance.form.FormObjectProvider;
+import com.smehsn.compassinsurance.form.PhotoAttachment;
+import com.smehsn.compassinsurance.form.ValidationException;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -234,7 +234,10 @@ public class PhotoAttachmentFragment extends Fragment implements FormObjectProvi
         return positionInViewPager;
     }
 
-
+    @Override
+    public String getTitle() {
+        return FormPagerAdapter.PAGE_TITLES[positionInViewPager];
+    }
 
 
 }

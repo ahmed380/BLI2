@@ -1,8 +1,6 @@
-package com.smehsn.compassinsurance.model;
+package com.smehsn.compassinsurance.form;
 
-/**
- * Created by sam on 6/9/16.
- */
+
 public class Coverages {
     private String nonOwner;
     private String liability;

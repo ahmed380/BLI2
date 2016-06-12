@@ -12,14 +12,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
 import com.smehsn.compassinsurance.dialog.DateDialog;
-import com.smehsn.compassinsurance.model.Coverages;
-import com.smehsn.compassinsurance.model.FormObjectProvider;
-import com.smehsn.compassinsurance.model.GeneralInfo;
-import com.smehsn.compassinsurance.model.InsuredInfo;
-import com.smehsn.compassinsurance.model.RequiredField;
-import com.smehsn.compassinsurance.model.VehicleCoverages;
-import com.smehsn.compassinsurance.model.VehicleInfo;
+import com.smehsn.compassinsurance.form.Coverages;
+import com.smehsn.compassinsurance.form.DealerInfo;
+import com.smehsn.compassinsurance.form.FormObjectProvider;
+import com.smehsn.compassinsurance.form.GeneralInfo;
+import com.smehsn.compassinsurance.form.InsuredInfo;
+import com.smehsn.compassinsurance.form.RequiredField;
+import com.smehsn.compassinsurance.form.ValidationException;
+import com.smehsn.compassinsurance.form.VehicleCoverages;
+import com.smehsn.compassinsurance.form.VehicleInfo;
 
 import java.lang.reflect.Field;
 import java.util.HashMap;
@@ -42,6 +45,7 @@ public class PaginatedFormFragment extends Fragment implements FormObjectProvide
         FORM_MODEL_MAPPING.put(R.layout.form_insured_info, InsuredInfo.class);
         FORM_MODEL_MAPPING.put(R.layout.form_vehicle_coverages, VehicleCoverages.class);
         FORM_MODEL_MAPPING.put(R.layout.form_vehicle_info, VehicleInfo.class);
+        FORM_MODEL_MAPPING.put(R.layout.form_dealer_info, DealerInfo.class);
     }
 
     //The layout which this fragment should host
@@ -178,7 +182,8 @@ public class PaginatedFormFragment extends Fragment implements FormObjectProvide
                         String errorMessage = "Field " + displayLabel + " is required";
                         validationException = new ValidationException(positionInViewPager, errorMessage);
                     }
-                }else{
+                }
+                else{
                     field.setAccessible(true);
                     try {
                         field.set(modelObject, value);
@@ -200,6 +205,11 @@ public class PaginatedFormFragment extends Fragment implements FormObjectProvide
     @Override
     public int getPagePosition() {
         return positionInViewPager;
+    }
+
+    @Override
+    public String getTitle() {
+        return FormPagerAdapter.PAGE_TITLES[positionInViewPager];
     }
 
     private String handleEditTextToString(EditText editText){

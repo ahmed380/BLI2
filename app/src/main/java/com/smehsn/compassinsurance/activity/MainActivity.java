@@ -19,33 +19,25 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
-    private static final String EMAIL_LIST_PREFERENCES = "email_list";
 
     private static final int REQUEST_PERMISSION_CODE = 123;
-    private SharedPreferences emailListPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        startActivity(new Intent(this, DealerRegisterActivity.class));
 
-        initAppMode();
-        initPreferenceSources();
-
-        if(checkPermissions())
-            openFormActivity();
-    }
-
-    private void initPreferenceSources() {
-        emailListPreferences = getSharedPreferences(EMAIL_LIST_PREFERENCES, Context.MODE_PRIVATE);
-
+//        if(checkPermissions())
+//            openFormActivity();
     }
 
 
-    private void initAppMode(){
 
-    }
+
+
+
 
     private void openFormActivity(){
         Intent intent = new Intent(this, CompleteFormActivity.class);

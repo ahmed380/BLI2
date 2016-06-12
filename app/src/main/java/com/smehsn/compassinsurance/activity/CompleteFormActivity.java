@@ -1,12 +1,9 @@
 package com.smehsn.compassinsurance.activity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -24,12 +21,11 @@ import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
-import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
-import com.smehsn.compassinsurance.fragment.ValidationException;
-import com.smehsn.compassinsurance.model.AttachmentProvider;
-import com.smehsn.compassinsurance.model.FormObjectProvider;
+import com.smehsn.compassinsurance.form.ValidationException;
+import com.smehsn.compassinsurance.form.AttachmentProvider;
+import com.smehsn.compassinsurance.form.FormObjectProvider;
 import com.smehsn.compassinsurance.util.Helper;
 
 import java.io.File;

@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.model;
+package com.smehsn.compassinsurance.form;
 
 
 

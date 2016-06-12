@@ -15,8 +15,14 @@
     </string-array>
 
 
-
     <!--Form field definitions-->
+
+    <!--DealerInfo-->
+    <string name="label_dealerName">Dealer Name</string>
+    <string name="label_dealerAddress">Address</string>
+    <string name="label_dealerFax">Fax</string>
+    <string name="label_dealerEmail">Email</string>
+
     <!--InsuredInfo-->
     <string name="label_name">First Name</string>
     <string name="label_surname">Surname</string>
@@ -160,8 +166,6 @@
     <string name="date_picker_prompt">Tap to select date</string>
     <string name="photo_action_prompt">Tap to take a photo</string>
     <string name="action_settings">Settings</string>
-
-
 
 
 </resources>

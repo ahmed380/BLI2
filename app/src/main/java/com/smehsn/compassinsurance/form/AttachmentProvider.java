@@ -1,10 +1,7 @@
-package com.smehsn.compassinsurance.model;
-
-import android.net.Uri;
+package com.smehsn.compassinsurance.form;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 
 public interface AttachmentProvider {
     public List<File> getAttachedFiles();
