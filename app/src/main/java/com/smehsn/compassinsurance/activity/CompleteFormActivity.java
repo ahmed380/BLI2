@@ -17,16 +17,20 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
+import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
-import com.smehsn.compassinsurance.form.ValidationException;
+import com.smehsn.compassinsurance.email.EmailFinishedEvent;
 import com.smehsn.compassinsurance.form.AttachmentProvider;
+import com.smehsn.compassinsurance.form.DealerInfo;
 import com.smehsn.compassinsurance.form.FormObjectProvider;
+import com.smehsn.compassinsurance.form.ValidationException;
+import com.smehsn.compassinsurance.form.provider.DealerInfoProvider;
 import com.smehsn.compassinsurance.util.Helper;
+import com.squareup.otto.Subscribe;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -43,9 +47,9 @@ import butterknife.ButterKnife;
 import butterknife.OnPageChange;
 
 
-
 public class CompleteFormActivity extends AppCompatActivity {
-    private static final String TAG = CompleteFormActivity.class.getSimpleName();
+    private static final String TAG                       = CompleteFormActivity.class.getSimpleName();
+    private static final String PROGRESS_DIALOG_FRAGMENT_TAG = "progressDialog";
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -57,9 +61,9 @@ public class CompleteFormActivity extends AppCompatActivity {
     ListView drawerListView;
 
     private FragmentPagerAdapter viewPagerAdapter;
-    private EmailClient emailClient;
+    private EmailClient          emailClient;
     private boolean formContainsValidationErrors = false;
-    private boolean emailIsSending = false;
+    private boolean emailIsSending               = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +76,27 @@ public class CompleteFormActivity extends AppCompatActivity {
         initEmailClient();
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerEventBus();
+    }
+
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unSubscribeEventBus();
+    }
+
+    private void unSubscribeEventBus() {
+        EmailClient.getEventBus().unregister(this);
+    }
+
+    private void registerEventBus() {
+        EmailClient.getEventBus().register(this);
+    }
 
 
     @Override
@@ -95,16 +120,17 @@ public class CompleteFormActivity extends AppCompatActivity {
     }
 
 
-    private void initViewPager(){
+    private void initViewPager() {
         viewPagerAdapter = new FormPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount());
-        viewPager.setCurrentItem(viewPagerAdapter.getCount()-1);
+        viewPager.setCurrentItem(0);
         changeActivityTitle();
+
     }
 
 
-    private void initDrawerLayout(){
+    private void initDrawerLayout() {
         drawerLayout.closeDrawer(GravityCompat.START);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -129,7 +155,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         });
     }
 
-    private void initEmailClient(){
+    private void initEmailClient() {
         emailClient = EmailClient.getInstance(
                 getString(R.string.client_email_address),
                 getString(R.string.client_email_password)
@@ -141,8 +167,8 @@ public class CompleteFormActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
-        for (Fragment fragment: fragmentList ){
-            if (fragment != null && fragment.isAdded()){
+        for (Fragment fragment : fragmentList) {
+            if (fragment != null && fragment.isAdded()) {
                 fragment.onActivityResult(requestCode, resultCode, data);
             }
         }
@@ -157,7 +183,7 @@ public class CompleteFormActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.send:
                 onTryToSubmitForm(true);
                 return true;
@@ -167,8 +193,7 @@ public class CompleteFormActivity extends AppCompatActivity {
     }
 
 
-    private void onTryToSubmitForm(boolean triggeredByUser){
-        final List<Fragment> fragmentList = getSupportFragmentManager().getFragments();
+    private void onTryToSubmitForm(boolean triggeredByUser) {
         //Store error pagePosition -> errorMessage mapping in order to
         //Change the position of viewPager to the first occurred error position
         final Map<Integer, String> positionToMessageMapping = new TreeMap<>();
@@ -176,9 +201,10 @@ public class CompleteFormActivity extends AppCompatActivity {
         final Map<Integer, Object> positionToFormModelMapping = new TreeMap<>();
         final List<File> attachments = new ArrayList<>();
 
+
         formContainsValidationErrors = false;
-        for(Fragment fragment: fragmentList){
-            if (fragment != null && fragment.isAdded()){
+        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
+            if (fragment != null && fragment.isAdded()) {
                 try {
                     if (fragment instanceof FormObjectProvider) {
                         FormObjectProvider provider = (FormObjectProvider) fragment;
@@ -186,14 +212,13 @@ public class CompleteFormActivity extends AppCompatActivity {
                         int position = provider.getPagePosition();
                         positionToFormModelMapping.put(position, modelObject);
                     }
-                    if (fragment instanceof AttachmentProvider){
+                    if (fragment instanceof AttachmentProvider) {
                         AttachmentProvider provider = (AttachmentProvider) fragment;
                         List<File> fragmentAttachments = provider.getAttachedFiles();
-                        for (File f: fragmentAttachments)
+                        for (File f : fragmentAttachments)
                             attachments.add(f);
                     }
-                }
-                catch (ValidationException e) {
+                } catch (ValidationException e) {
                     formContainsValidationErrors = true;
                     positionToMessageMapping.put(e.getPagePosition(), e.getValidationErrorMessage());
                 }
@@ -201,7 +226,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         }
 
 
-        if (formContainsValidationErrors && !positionToMessageMapping.isEmpty()){
+        if (formContainsValidationErrors && !positionToMessageMapping.isEmpty()) {
             final Snackbar messageSnackbar = Snackbar.make(drawerLayout, "", Snackbar.LENGTH_LONG);
             //First entry is the one with smallest page number
             Map.Entry<Integer, String> firstEntry = positionToMessageMapping.entrySet().iterator().next();
@@ -212,16 +237,14 @@ public class CompleteFormActivity extends AppCompatActivity {
                 messageSnackbar.show();
             }
             messageSnackbar.setText(errorMessage);
-        }
-        else if (!Helper.internetIsConnected(this)){
-            Snackbar.make(drawerLayout, "Failed to connect to the internet", Snackbar.LENGTH_LONG);
-        }
-        else if (!formContainsValidationErrors && triggeredByUser){
-            final SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd MMM yyyy, HH:mm", Locale.US);
+        } else if (!Helper.internetIsConnected(this)) {
+            Snackbar.make(drawerLayout, "Failed to connect to the internet", Snackbar.LENGTH_LONG).show();
+        } else if (!formContainsValidationErrors && triggeredByUser) {
+            final SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd HH:mm", Locale.US);
             final String formattedDate = sdf.format(Calendar.getInstance().getTime());
             final Email email = new Email()
                     .setRecipientAddresses(getResources().getStringArray(R.array.recipient_email_addresses))
-                    .setSubject(  getString(R.string.default_email_subject) + " " + formattedDate)
+                    .setSubject(DealerInfoProvider.getInstance(this).getDealerName() + " " + formattedDate)
                     .setBody(buildEmailBody(positionToFormModelMapping))
                     .setAttachments(attachments);
             sendEmail(email);
@@ -230,55 +253,63 @@ public class CompleteFormActivity extends AppCompatActivity {
     }
 
 
-    private void sendEmail(Email email){
 
-//        ProgressDialogFragment progressDialog = new ProgressDialogFragment();
-//        Bundle bundle = new Bundle();
-//        bundle.putString("title", "Submitting form");
-//        bundle.putString("message", "Please wait...");
-//        progressDialog.setRetainInstance(true);
-//        progressDialog.setArguments(bundle);
-//        progressDialog.show(getSupportFragmentManager(), "progressDialog");
-        Snackbar.make(drawerLayout, "Submitting form", Snackbar.LENGTH_LONG).show();
-        emailClient.sendAsync(email, new EmailClient.OnEmailSentListener() {
-            @Override
-            public void onEmailSent(boolean success) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                DialogFragment dialog = (DialogFragment) fragmentManager.findFragmentByTag("progressDialog");
-//                if (dialog.isAdded()){
-//                    dialog.dismiss();
-//                }
-                String displayMessage = success ? "Form submitted successfully" : "Failed submitting form, ";
-                if (!success && !Helper.internetIsConnected(CompleteFormActivity.this)){
-                    displayMessage += "please check your connection";
-                }
-                else if(!success){
-                    displayMessage += "please contact the insurance";
-                }
-                Toast.makeText(CompleteFormActivity.this, displayMessage, Toast.LENGTH_SHORT).show();
-            }
-        });
+    @Subscribe
+    public void onEmailFinishedEvent(EmailFinishedEvent event){
+        String message = event.isSuccess() ?  "Form submitted successfully": "Error submitting form, ";
+        if (!event.isSuccess()){
+            if (Helper.internetIsConnected(this))
+                message += "program has bugs!!";
+            else
+                message += "please check your connection";
+        }
+
+        ProgressDialogFragment dialog = (ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag(PROGRESS_DIALOG_FRAGMENT_TAG);
+        if (dialog != null){
+            dialog.dismiss();
+        }
+        Snackbar.make(drawerLayout, message, Snackbar.LENGTH_LONG).show();
     }
 
 
-    private String buildEmailBody(Map<Integer, Object> positionToMessageMapping){
+
+    private void sendEmail(Email email) {
+        Bundle params = new Bundle();
+        params.putString("title", "Sending email...");
+        params.putString("message", "Please wait");
+        ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(params);
+
+        progressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_FRAGMENT_TAG);
+        emailClient.sendAsync(email);
+    }
+
+
+    private String buildEmailBody(Map<Integer, Object> positionToModelMapping) {
         StringBuilder email = new StringBuilder();
-        for(Integer position: positionToMessageMapping.keySet()){
-            try {
-                email.append(Helper.objectToEmailBody(
-                        this,
-                        viewPagerAdapter.getPageTitle(position).toString(),
-                        positionToMessageMapping.get(position)));
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+
+        DealerInfoProvider provider =  DealerInfoProvider.getInstance(this);
+        DealerInfo dealerInfo = (DealerInfo) provider.getFormModelObject();
+
+        email.append(Helper.objectToEmailBody(
+                this,
+                provider.getTitle(),
+                dealerInfo));
+        for (Integer position : positionToModelMapping.keySet()) {
+
+            email.append(Helper.objectToEmailBody(
+                    this,
+                    viewPagerAdapter.getPageTitle(position).toString(),
+                    positionToModelMapping.get(position)));
+
         }
         return email.toString();
     }
 
     @OnPageChange(R.id.viewPager)
-    void changeActivityTitle(){
+    void changeActivityTitle() {
         setTitle(viewPagerAdapter.getPageTitle(viewPager.getCurrentItem()));
     }
+
+
 
 }

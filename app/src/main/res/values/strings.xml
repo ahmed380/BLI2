@@ -10,8 +10,8 @@
     <string name="client_email_password">clientpassword</string>
     <string name="default_email_subject">Client report </string>
     <string-array name="recipient_email_addresses">
-        <item>ahmed.farouk380@gmail.com</item>
-        <!--<item>samvel1024@gmail.com</item>-->
+        <!--<item>ahmed.farouk380@gmail.com</item>-->
+        <item>samvel1024@gmail.com</item>
     </string-array>
 
 

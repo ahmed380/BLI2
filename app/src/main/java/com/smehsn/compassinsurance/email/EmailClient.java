@@ -1,16 +1,15 @@
 package com.smehsn.compassinsurance.email;
 
-import android.content.Context;
 import android.os.AsyncTask;
+
+import com.squareup.otto.Bus;
+import com.squareup.otto.ThreadEnforcer;
 
 import java.io.File;
 import java.util.Date;
 import java.util.Properties;
 
 import javax.activation.CommandMap;
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
 import javax.activation.MailcapCommandMap;
 import javax.mail.BodyPart;
 import javax.mail.Multipart;
@@ -27,11 +26,15 @@ public class EmailClient extends javax.mail.Authenticator {
 
 
     private static EmailClient myInstance;
-
+    private static final Bus emailEventBus = new Bus(ThreadEnforcer.MAIN);
     private String    userEmail;
     private String    password;
-    private Multipart multipart;
 
+
+
+    public static Bus getEventBus(){
+        return emailEventBus;
+    }
 
     public static synchronized EmailClient getInstance(String accountEmail, String accountPassword) {
         if (myInstance == null)
@@ -62,7 +65,7 @@ public class EmailClient extends javax.mail.Authenticator {
             Properties props = createProperties();
             Session session = Session.getInstance(props, this);
 
-            multipart = new MimeMultipart();
+            Multipart multipart = new MimeMultipart();
             MimeMessage msg = new MimeMessage(session);
 
             msg.setFrom(new InternetAddress(userEmail));
@@ -95,27 +98,17 @@ public class EmailClient extends javax.mail.Authenticator {
             Transport.send(msg);
             return true;
         }catch (Exception ex){
-            ex.printStackTrace();
             return false;
         }
     }
 
-
-    public void sendAsync(Email email, final OnEmailSentListener listener) {
-        new AsyncTask<Email, Void, Boolean>(){
-
-            @Override
-            protected Boolean doInBackground(Email... params) {
-                return sendSync(params[0]);
-            }
-
-            @Override
-            protected void onPostExecute(Boolean success) {
-                super.onPostExecute(success);
-                listener.onEmailSent(success);
-            }
-        }.execute(email);
+    public void sendAsync(Email email){
+        new EmailSenderTask().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR,
+                this,
+                email
+        );
     }
+
 
 
     @Override
@@ -124,6 +117,7 @@ public class EmailClient extends javax.mail.Authenticator {
     }
 
     private Properties createProperties() {
+
         String port = "465";
         String sport = "465";
         String host = "smtp.gmail.com";
@@ -139,8 +133,24 @@ public class EmailClient extends javax.mail.Authenticator {
     }
 
 
-    public interface OnEmailSentListener {
-        public void onEmailSent(boolean success);
+
+    private static class EmailSenderTask extends AsyncTask<Object, Void, Boolean>{
+
+        private Email requestedEmail;
+
+        @Override
+        protected Boolean doInBackground(Object... params) {
+            EmailClient client = (EmailClient) params[0];
+            requestedEmail = (Email) params[1];
+            return client.sendSync(requestedEmail);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            super.onPostExecute(success);
+            EmailClient.getEventBus().post(new EmailFinishedEvent(requestedEmail, success));
+        }
+
     }
 
 

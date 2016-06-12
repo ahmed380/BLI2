@@ -4,9 +4,8 @@ import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
@@ -22,9 +21,10 @@ import com.smehsn.compassinsurance.form.AttachmentProvider;
 import com.smehsn.compassinsurance.form.FormObjectProvider;
 import com.smehsn.compassinsurance.form.PhotoAttachment;
 import com.smehsn.compassinsurance.form.ValidationException;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -164,8 +164,23 @@ public class PhotoAttachmentFragment extends Fragment implements FormObjectProvi
 
 
     private void loadImageViewFromUri(int resId, Uri uri){
-        ImageView imageView = (ImageView) rootView.findViewById(resId);
-        new ImageUriLoaderTask().execute(uri, imageView);
+        final ImageView imageView = (ImageView) rootView.findViewById(resId);
+        imageView.setVisibility(View.VISIBLE);
+        Picasso.
+                with(getContext()).
+                load(uri).
+                into(imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        imageView.setBackgroundColor(Color.TRANSPARENT);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
+
     }
 
     @Override
@@ -192,33 +207,6 @@ public class PhotoAttachmentFragment extends Fragment implements FormObjectProvi
         return null;
     }
 
-
-    private class ImageUriLoaderTask extends AsyncTask<Object, Void, Bitmap>{
-
-        private ImageView targetImageView;
-        @Override
-        protected Bitmap doInBackground(Object... params) {
-            Uri uri = (Uri) params[0];
-            targetImageView = (ImageView) params[1];
-            Bitmap bitmap = null;
-            try {
-                if (getContext() != null && getContext().getContentResolver() != null)
-                    bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            if (bitmap != null) {
-                targetImageView.setImageBitmap(bitmap);
-                targetImageView.setVisibility(View.VISIBLE);
-            }
-            super.onPostExecute(bitmap);
-        }
-    }
 
 
     @Override

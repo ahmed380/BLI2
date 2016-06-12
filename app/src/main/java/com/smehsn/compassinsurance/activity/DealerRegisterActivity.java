@@ -1,6 +1,7 @@
 package com.smehsn.compassinsurance.activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -16,6 +17,7 @@ import android.widget.Toast;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.form.DealerInfo;
 import com.smehsn.compassinsurance.form.ValidationException;
+import com.smehsn.compassinsurance.form.provider.DealerInfoProvider;
 import com.smehsn.compassinsurance.fragment.PaginatedFormFragment;
 
 import java.lang.reflect.Field;
@@ -26,8 +28,8 @@ import butterknife.ButterKnife;
 public class DealerRegisterActivity extends AppCompatActivity {
 
     private static final String FRAGMENT_TAG = "DEALER_INFO_FRAGMENT";
-    public static final String DEALER_INFO_PREFS = "dealer_info";
     private PaginatedFormFragment formFragment;
+    public static final String DEALER_IDENTIFIED_FLAG = "dealer_identified";
 
 
     @BindView(R.id.frame_layout)
@@ -80,7 +82,7 @@ public class DealerRegisterActivity extends AppCompatActivity {
     private void onTryToSaveDealer() {
         try {
             DealerInfo dealer = (DealerInfo) formFragment.getFormModelObject();
-            SharedPreferences.Editor editor = getSharedPreferences(DEALER_INFO_PREFS, Context.MODE_PRIVATE).edit();
+            SharedPreferences.Editor editor = getSharedPreferences(DealerInfoProvider.PREF_NAME, Context.MODE_PRIVATE).edit();
             Field[] fields = dealer.getClass().getDeclaredFields();
             for (Field field: fields){
                 if (field.getType() != String.class)
@@ -92,8 +94,13 @@ public class DealerRegisterActivity extends AppCompatActivity {
                 editor.putString(fieldName, value);
 
             }
+            editor.putBoolean(DEALER_IDENTIFIED_FLAG, true);
             editor.apply();
             Toast.makeText(DealerRegisterActivity.this, "Dealer information saved", Toast.LENGTH_SHORT).show();
+
+
+            startActivity(new Intent(this, CompleteFormActivity.class));
+            finish();
 
         } catch (ValidationException e) {
             Snackbar.make(rootView, e.getValidationErrorMessage(), Snackbar.LENGTH_LONG).show();

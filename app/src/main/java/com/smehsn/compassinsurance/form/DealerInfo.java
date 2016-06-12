@@ -11,4 +11,7 @@ public class DealerInfo {
     @RequiredField
     private String dealerEmail;
 
+    public String getName() {
+        return dealerName;
+    }
 }

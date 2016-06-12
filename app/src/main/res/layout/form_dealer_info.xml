@@ -6,9 +6,6 @@
         style="@style/form_page_root_view">
 
 
-
-
-
         <TextView
             android:id="@+id/label_dealerName"
             style="@style/form_label"

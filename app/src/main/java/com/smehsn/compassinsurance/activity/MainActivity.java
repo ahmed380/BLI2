@@ -1,6 +1,8 @@
 package com.smehsn.compassinsurance.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.form.provider.DealerInfoProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,17 +27,31 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (checkPermissions())
+            routeActivities();
 
-        startActivity(new Intent(this, DealerRegisterActivity.class));
 
-//        if(checkPermissions()) {
-//            openFormActivity();
-//            finish();
-//        }
+    }
+
+    private void routeActivities() {
+
+        Class activityClass;
+        if(!dealerIdentified()){
+            activityClass = DealerRegisterActivity.class;
+        }
+        else{
+            activityClass = CompleteFormActivity.class;
+        }
+        startActivity(new Intent(this, activityClass));
+        finish();
+
     }
 
 
-
+    private boolean dealerIdentified(){
+        SharedPreferences prefs = getSharedPreferences(DealerInfoProvider.PREF_NAME, Context.MODE_PRIVATE);
+        return prefs.getBoolean(DealerRegisterActivity.DEALER_IDENTIFIED_FLAG, false);
+    }
 
     private void openFormActivity(){
         Intent intent = new Intent(this, CompleteFormActivity.class);
@@ -79,6 +96,6 @@ public class MainActivity extends AppCompatActivity {
         }
         if (unallowedPermission)
             checkPermissions();
-        else openFormActivity();
+        else routeActivities();
     }
 }

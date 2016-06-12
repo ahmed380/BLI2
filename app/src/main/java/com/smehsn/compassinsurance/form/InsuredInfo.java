@@ -3,7 +3,9 @@ package com.smehsn.compassinsurance.form;
 
 
 public class InsuredInfo{
+    @RequiredField
     private String name;
+    @RequiredField
     private String surname;
     private String middleName;
     private String address;

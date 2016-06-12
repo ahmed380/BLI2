@@ -12,7 +12,7 @@ import java.lang.reflect.Field;
 
 public class Helper {
 
-    public static String objectToEmailBody(Context ctx, String formTitle, Object obj) throws IllegalAccessException {
+    public static String objectToEmailBody(Context ctx, String formTitle, Object obj)  {
         Field fields[] = obj.getClass().getDeclaredFields();
         StringBuilder sb = new StringBuilder();
         sb
@@ -27,7 +27,12 @@ public class Helper {
                     "label_" + field.getName(),
                     "string",  ctx.getPackageName());
             String label = ctx.getResources().getString(formFieldDisplayLabelId);
-            String value = (String) field.get(obj);
+            String value = null;
+            try {
+                value = (String) field.get(obj);
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            }
             sb
                     .append("<i><b>")
                     .append(label)

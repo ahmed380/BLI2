@@ -19,7 +19,6 @@ import com.smehsn.compassinsurance.form.DealerInfo;
 import com.smehsn.compassinsurance.form.FormObjectProvider;
 import com.smehsn.compassinsurance.form.GeneralInfo;
 import com.smehsn.compassinsurance.form.InsuredInfo;
-import com.smehsn.compassinsurance.form.RequiredField;
 import com.smehsn.compassinsurance.form.ValidationException;
 import com.smehsn.compassinsurance.form.VehicleCoverages;
 import com.smehsn.compassinsurance.form.VehicleInfo;
@@ -166,7 +165,7 @@ public class PaginatedFormFragment extends Fragment implements FormObjectProvide
                 value = handleButtonToString((Button) view);
             }
 
-            boolean isFieldRequired = field.isAnnotationPresent(RequiredField.class);
+            boolean isFieldRequired = false;//field.isAnnotationPresent(RequiredField.class);
             if (value != null){
                 value = value.trim();
                 TextView labelTextView = (TextView) getViewByIdName("label_" + field.getName());
