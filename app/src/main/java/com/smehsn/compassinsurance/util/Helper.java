@@ -3,51 +3,34 @@ package com.smehsn.compassinsurance.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.view.View;
+import android.text.TextUtils;
 
-import com.smehsn.compassinsurance.email.EmailClient;
-
-import java.lang.reflect.Field;
+import java.util.Map;
 
 
 public class Helper {
 
-    public static String objectToEmailBody(Context ctx, String formTitle, Object obj)  {
-        Field fields[] = obj.getClass().getDeclaredFields();
+    public static String createEmailBody(Map<String, Map<String, String>> email)  {
         StringBuilder sb = new StringBuilder();
-        sb
-                .append("<h4>")
-                .append(formTitle)
-                .append("</h4>");
-        for (Field field: fields){
-            if (field.getType() != String.class)
-                continue;
-            field.setAccessible(true);
-            int formFieldDisplayLabelId = ctx.getResources().getIdentifier(
-                    "label_" + field.getName(),
-                    "string",  ctx.getPackageName());
-            String label = ctx.getResources().getString(formFieldDisplayLabelId);
-            String value = null;
-            try {
-                value = (String) field.get(obj);
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
+        for (Map.Entry<String, Map<String, String>> entry: email.entrySet()){
+            String formSubtitle = entry.getKey();
             sb
-                    .append("<i><b>")
-                    .append(label)
-                    .append("</i></b>")
-                    .append(": ")
-                    .append(isEmpty(value)? "blank": value)
-                    .append("<br/>");
+                    .append("<h4>")
+                    .append(formSubtitle)
+                    .append("</h4>");
+            for (Map.Entry<String, String> fields: entry.getValue().entrySet()){
+                sb
+                        .append("<i><b>")
+                        .append(fields.getKey())
+                        .append("</i></b>")
+                        .append(": ")
+                        .append(TextUtils.isEmpty(fields.getValue())? "blank": fields.getValue())
+                        .append("<br/>");
+            }
+            sb.append("<br/>");
+
         }
-        sb.append("<br/>");
         return sb.toString();
-    }
-
-
-    public static boolean isEmpty(String str){
-        return str == null || str.trim().equals("");
     }
 
     public static boolean internetIsConnected(Context context) {

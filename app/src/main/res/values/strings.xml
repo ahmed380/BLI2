@@ -25,7 +25,7 @@
 
     <!--InsuredInfo-->
     <string name="label_name">First Name</string>
-    <string name="label_surname">Surname</string>
+    <string name="label_surname">Last Name</string>
     <string name="label_middleName">Middle Name</string>
     <string name="label_address">Address</string>
     <string name="label_city">City</string>
@@ -33,7 +33,6 @@
     <string name="label_zip">ZIP</string>
     <string name="label_email">Email</string>
     <string name="label_phone">Phone</string>
-    <string name="label_fax">Fax</string>
 
     <!-- GeneralInfo-->
     <string name="label_date">Effective Date</string>
@@ -55,7 +54,7 @@
     <!--VehicleInfo-->
     <string name="label_carType">Car Type</string>
     <string name="label_vin">VIN</string>
-    <string name="label_modelYear">Model Year</string>
+    <string name="label_modelYear">Year</string>
     <string name="label_make">Make</string>
     <string name="label_model">Model</string>
     <string name="label_vehicleZip">ZIP</string>

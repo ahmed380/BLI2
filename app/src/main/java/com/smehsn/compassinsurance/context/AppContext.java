@@ -2,7 +2,7 @@ package com.smehsn.compassinsurance.context;
 
 import android.app.Application;
 
-import com.smehsn.compassinsurance.beans.DealerInfoProvider;
+import com.smehsn.compassinsurance.dao.DealerInfoProvider;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
@@ -17,25 +18,27 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.smehsn.compassinsurance.AttachmentProvider;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
+import com.smehsn.compassinsurance.context.AppContext;
+import com.smehsn.compassinsurance.dao.DealerInfoProvider;
 import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
 import com.smehsn.compassinsurance.email.EmailFinishedEvent;
+import com.smehsn.compassinsurance.parser.FormValidationException;
+import com.smehsn.compassinsurance.parser.fragment.FormProvider;
 import com.smehsn.compassinsurance.util.Helper;
 import com.squareup.otto.Subscribe;
 
-import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Calendar;
+import java.util.Date;
+import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.TreeMap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,52 +60,36 @@ public class CompleteFormActivity extends AppCompatActivity {
 
     private FragmentPagerAdapter viewPagerAdapter;
     private EmailClient          emailClient;
-    private boolean formContainsValidationErrors = false;
-    private boolean emailIsSending               = false;
+    private DealerInfoProvider   dealerInfoProvider;
 
+    //************* Lifecycle callbacks *******************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_complete_form);
         ButterKnife.bind(this);
+        initBeans();
         initViewPager();
         initDrawerLayout();
         initDrawerListView();
         initEmailClient();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
-        registerEventBus();
+        EmailClient.getEventBus().register(this);
     }
-
 
     @Override
     protected void onPause() {
         super.onPause();
-        unSubscribeEventBus();
-    }
-
-    private void unSubscribeEventBus() {
         EmailClient.getEventBus().unregister(this);
     }
-
-    private void registerEventBus() {
-        EmailClient.getEventBus().register(this);
-    }
-
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        formContainsValidationErrors = savedInstanceState.getBoolean("formContainsValidationErrors");
-
-        //Request form validation to highlight errors
-        if (formContainsValidationErrors)
-            //Validate without showing error message (we have shown it before)
-            onTryToSubmitForm(false);
     }
 
     @Override
@@ -110,6 +97,10 @@ public class CompleteFormActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
     }
 
+    //************* Initializers *******************************
+    private void initBeans(){
+        dealerInfoProvider = (DealerInfoProvider) ((AppContext)getApplication()).get(DealerInfoProvider.BEAN_KEY);
+    }
 
     private void initViewPager() {
         viewPagerAdapter = new FormPagerAdapter(getSupportFragmentManager());
@@ -119,7 +110,6 @@ public class CompleteFormActivity extends AppCompatActivity {
         changeActivityTitle();
 
     }
-
 
     private void initDrawerLayout() {
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -176,55 +166,60 @@ public class CompleteFormActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.send:
-                onTryToSubmitForm(true);
+                onTryToSubmitForm();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-
-    private void onTryToSubmitForm(boolean triggeredByUser) {
-        //Store error pagePosition -> errorMessage mapping in order to
-        //Change the position of viewPager to the first occurred error position
-        final Map<Integer, String> positionToMessageMapping = new TreeMap<>();
-        //Store pagePosition -> model object mapping to get sorted access
-        final Map<Integer, Object> positionToFormModelMapping = new TreeMap<>();
-        final List<File> attachments = new ArrayList<>();
+    @OnPageChange(R.id.viewPager)
+    void changeActivityTitle() {
+        setTitle(viewPagerAdapter.getPageTitle(viewPager.getCurrentItem()));
+    }
 
 
-        formContainsValidationErrors = false;
-        for (Fragment fragment : getSupportFragmentManager().getFragments()) {
-            if (fragment != null && fragment.isAdded()) {
 
+    private void onTryToSubmitForm() {
+        FragmentManager fm  = getSupportFragmentManager();
+        Map<String, Map<String , String>> formData= new LinkedHashMap<>();
+        String errorMessage = null;
+        int errorPagePosition = 0;
+        AttachmentProvider attachmentProvider = null;
+        for (int position = 0; position < viewPager.getChildCount(); ++position){
+            String fragmentTag = "android:switcher:" + viewPager.getId() + ":" + position;
+            Fragment fragment = fm.findFragmentByTag(fragmentTag);
+            if (fragment instanceof AttachmentProvider){
+                attachmentProvider = (AttachmentProvider) fragment;
+            }
+            FormProvider formProvider = (FormProvider) fragment;
+            try {
+                Map<String, String> form = formProvider.parseForm();
+                formData.put(
+                        viewPagerAdapter.getPageTitle(position).toString(),
+                        form
+                );
+            } catch (FormValidationException e) {
+                if (errorMessage == null) {
+                    errorMessage = e.getErrorMessage();
+                    errorPagePosition = position;
+                }
             }
         }
 
-
-        if (formContainsValidationErrors && !positionToMessageMapping.isEmpty()) {
-            final Snackbar messageSnackbar = Snackbar.make(drawerLayout, "", Snackbar.LENGTH_LONG);
-            //First entry is the one with smallest page number
-            Map.Entry<Integer, String> firstEntry = positionToMessageMapping.entrySet().iterator().next();
-            int errorPagePosition = firstEntry.getKey();
-            String errorMessage = firstEntry.getValue();
-            if (triggeredByUser) {
-                viewPager.setCurrentItem(errorPagePosition);
-                messageSnackbar.show();
+        if (errorMessage != null){
+            viewPager.setCurrentItem(errorPagePosition);
+            Snackbar.make(drawerLayout, errorMessage, Snackbar.LENGTH_LONG).show();
+        }else {
+            Email email = new Email()
+                    .setBody(Helper.createEmailBody(formData))
+                    .setSubject(dealerInfoProvider.getDealerName() + " : " + new Date().toString())
+                    .setRecipientAddresses(getResources().getStringArray(R.array.recipient_email_addresses));
+            if (attachmentProvider != null) {
+                email.setAttachments(attachmentProvider.getAttachedFiles());
             }
-            messageSnackbar.setText(errorMessage);
-        } else if (!Helper.internetIsConnected(this)) {
-            Snackbar.make(drawerLayout, "Failed to connect to the internet", Snackbar.LENGTH_LONG).show();
-        } else if (!formContainsValidationErrors && triggeredByUser) {
-            final SimpleDateFormat sdf = new SimpleDateFormat("EEE, dd HH:mm", Locale.US);
-            final String formattedDate = sdf.format(Calendar.getInstance().getTime());
-            final Email email = new Email()
-                    .setRecipientAddresses(getResources().getStringArray(R.array.recipient_email_addresses))
-                    .setSubject(" " + formattedDate)
-                    .setBody(buildEmailBody(positionToFormModelMapping))
-                    .setAttachments(attachments);
             sendEmail(email);
         }
-
     }
 
 
@@ -242,6 +237,10 @@ public class CompleteFormActivity extends AppCompatActivity {
         ProgressDialogFragment dialog = (ProgressDialogFragment) getSupportFragmentManager().findFragmentByTag(PROGRESS_DIALOG_FRAGMENT_TAG);
         if (dialog != null){
             dialog.dismiss();
+            if (event.isSuccess()){
+                Toast.makeText(CompleteFormActivity.this, message, Toast.LENGTH_SHORT).show();
+                finish();
+            }
         }
         Snackbar.make(drawerLayout, message, Snackbar.LENGTH_LONG).show();
     }
@@ -253,31 +252,16 @@ public class CompleteFormActivity extends AppCompatActivity {
         params.putString("title", "Sending email...");
         params.putString("message", "Please wait");
         ProgressDialogFragment progressDialog = ProgressDialogFragment.newInstance(params);
-
         progressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_FRAGMENT_TAG);
         emailClient.sendAsync(email);
     }
 
 
     private String buildEmailBody(Map<Integer, Object> positionToModelMapping) {
-        StringBuilder email = new StringBuilder();
-
-
-        for (Integer position : positionToModelMapping.keySet()) {
-
-            email.append(Helper.objectToEmailBody(
-                    this,
-                    viewPagerAdapter.getPageTitle(position).toString(),
-                    positionToModelMapping.get(position)));
-
-        }
-        return email.toString();
+        return null;
     }
 
-    @OnPageChange(R.id.viewPager)
-    void changeActivityTitle() {
-        setTitle(viewPagerAdapter.getPageTitle(viewPager.getCurrentItem()));
-    }
+
 
 
 

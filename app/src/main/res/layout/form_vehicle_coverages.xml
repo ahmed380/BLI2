@@ -4,61 +4,6 @@
     <LinearLayout
         style="@style/form_page_root_view">
 
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_comprehensive"
-            android:id="@+id/label_comprehensive"/>
-        <Spinner
-            style="@style/form_spinner"
-            android:id="@+id/comprehensive"
-            android:entries="@array/coverage_options"/>
-
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_collision"
-            android:id="@+id/label_collision"/>
-        <Spinner
-            style="@style/form_spinner"
-            android:id="@+id/collision"
-            android:entries="@array/coverage_options"/>
-
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_towingLimit"
-            android:id="@+id/label_towingLimit"/>
-        <Spinner
-            style="@style/form_spinner"
-            android:id="@+id/towingLimit"
-            android:entries="@array/coverage_options"/>
-
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_rentalLimit"
-            android:id="@+id/label_rentalLimit"/>
-        <Spinner
-            style="@style/form_spinner"
-            android:id="@+id/rentalLimit"
-            android:entries="@array/coverage_options"/>
-
-
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_customEquipment"
-            android:id="@+id/label_customEquipment"/>
-        <EditText
-            style="@style/form_field"
-            android:id="@+id/customEquipment"/>
-
-
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_gap"
-            android:id="@+id/label_gap"/>
-        <Spinner
-            style="@style/form_spinner"
-            android:id="@+id/gap"
-            android:entries="@array/coverage_options"/>
-
 
 
 

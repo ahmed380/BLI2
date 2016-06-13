@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.beans;
+package com.smehsn.compassinsurance.dao;
 
 import android.content.Context;
 import android.content.SharedPreferences;

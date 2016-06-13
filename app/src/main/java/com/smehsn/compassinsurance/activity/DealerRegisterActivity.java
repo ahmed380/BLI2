@@ -12,7 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.beans.DealerInfoProvider;
+import com.smehsn.compassinsurance.dao.DealerInfoProvider;
 import com.smehsn.compassinsurance.context.AppContext;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.SimpleFormFragment;
@@ -26,7 +26,6 @@ public class DealerRegisterActivity extends AppCompatActivity {
 
     private static final String FRAGMENT_TAG = "DEALER_INFO_FRAGMENT";
     private SimpleFormFragment formFragment;
-    public static final String DEALER_IDENTIFIED_FLAG = "dealer_identified";
     private DealerInfoProvider dealerInfoProvider;
 
     @BindView(R.id.frame_layout)

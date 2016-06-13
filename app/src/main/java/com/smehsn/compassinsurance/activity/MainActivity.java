@@ -11,32 +11,44 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.beans.DealerInfoProvider;
+import com.smehsn.compassinsurance.dao.DealerInfoProvider;
 import com.smehsn.compassinsurance.context.AppContext;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 123;
 
+
+    private static final boolean DEBUG_MODE = false;
     private static final Class DEBUGGABLE_ACTIVITY = CompleteFormActivity.class;
     private DealerInfoProvider dealerInfoProvider;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
         initBeans();
-        if (checkPermissions())
+        if (checkPermissions() && DEBUG_MODE)
             routeActivities();
-
-
     }
 
     private void initBeans() {
         dealerInfoProvider = (DealerInfoProvider) ((AppContext) getApplication()).get(DealerInfoProvider.BEAN_KEY);
+    }
+
+
+    @OnClick(R.id.button)
+    void onOpenFormActivity(){
+        startActivity(new Intent(MainActivity.this, CompleteFormActivity.class));
     }
 
     private void routeActivities() {
@@ -53,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
         }
         startActivity(new Intent(this, activityClass));
         finish();
-
     }
 
 

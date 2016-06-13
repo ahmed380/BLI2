@@ -5,34 +5,6 @@
     <LinearLayout style="@style/form_page_root_view">
 
 
-        <TextView
-            android:id="@+id/label_carType"
-            style="@style/form_label"
-            android:text="@string/label_carType" />
-
-        <Spinner
-            android:id="@+id/carType"
-            style="@style/form_spinner"
-            android:entries="@array/nonOwner_options" />
-
-        <TextView
-            android:id="@+id/label_vin"
-            style="@style/form_label"
-            android:text="@string/label_vin" />
-
-        <EditText
-            android:id="@+id/vin"
-            style="@style/form_field" />
-
-        <TextView
-            android:id="@+id/label_modelYear"
-            style="@style/form_label"
-            android:text="@string/label_modelYear" />
-
-        <Spinner
-            android:id="@+id/modelYear"
-            style="@style/form_spinner"
-            android:entries="@array/nonOwner_options" />
 
         <TextView
             android:id="@+id/label_make"
@@ -42,6 +14,7 @@
         <Spinner
             android:id="@+id/make"
             style="@style/form_spinner"
+            android:tag = '{ "label" :  "label_make"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_make" }'
             android:entries="@array/nonOwner_options" />
 
         <TextView
@@ -50,28 +23,36 @@
             android:text="@string/label_model" />
 
         <Spinner
+            android:tag = '{ "label" :  "label_model"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_model" }'
             android:id="@+id/model"
             style="@style/form_spinner"
             android:entries="@array/nonOwner_options" />
 
 
-        <TextView
-            android:id="@+id/label_vehicleZip"
-            style="@style/form_label"
-            android:text="@string/label_vehicleZip" />
 
-        <EditText
-            android:id="@+id/vehicleZip"
-            style="@style/form_field" />
 
         <TextView
-            android:id="@+id/label_vehicleCountry"
+            android:id="@+id/label_modelYear"
             style="@style/form_label"
-            android:text="@string/label_vehicleCountry" />
+            android:text="@string/label_modelYear" />
+
+        <Spinner
+            android:tag = '{ "label" :  "label_modelYear"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_modelYear" }'
+            android:id="@+id/modelYear"
+            style="@style/form_spinner"
+            android:entries="@array/nonOwner_options" />
+
+
+        <TextView
+            android:id="@+id/label_vin"
+            style="@style/form_label"
+            android:text="@string/label_vin" />
 
         <EditText
-            android:id="@+id/vehicleCountry"
+            android:tag = '{ "label" :  "label_vin"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_vin" }'
+            android:id="@+id/vin"
             style="@style/form_field" />
+
 
 
         <TextView
@@ -80,18 +61,12 @@
             android:text="@string/label_vehicleCity" />
 
         <EditText
+            android:tag = '{ "label" :  "label_vehicleCity"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_vehicleCity" }'
             android:id="@+id/vehicleCity"
             style="@style/form_field" />
 
 
-        <TextView
-            android:id="@+id/label_vehicleRegion"
-            style="@style/form_label"
-            android:text="@string/label_vehicleRegion" />
 
-        <EditText
-            android:id="@+id/vehicleRegion"
-            style="@style/form_field" />
 
     </LinearLayout>
 
