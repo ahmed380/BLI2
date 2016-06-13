@@ -11,6 +11,7 @@
             style="@style/form_label"
             android:text="@string/label_dealerName" />
         <EditText
+            android:tag = '{ "label" :  "label_dealerName"  ,  "strategy": "edit_text"  ,   "validators": ["required"]   ,   "labelView": "label_dealerName" }'
             android:id="@+id/dealerName"
             style="@style/form_field" />
 
@@ -19,6 +20,7 @@
             style="@style/form_label"
             android:text="@string/label_dealerAddress" />
         <EditText
+            android:tag = '{ "label" :  "label_dealerAddress"  ,  "strategy": "edit_text"  ,   "validators": ["required"]   ,   "labelView": "label_dealerAddress" }'
             android:id="@+id/dealerAddress"
             style="@style/form_field" />
 
@@ -28,6 +30,7 @@
             style="@style/form_label"
             android:text="@string/label_dealerFax" />
         <EditText
+            android:tag = '{ "label" :  "label_dealerFax"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_dealerFax" }'
             android:id="@+id/dealerFax"
             style="@style/form_field" />
 
@@ -37,6 +40,7 @@
             style="@style/form_label"
             android:text="@string/label_dealerEmail" />
         <EditText
+            android:tag = '{ "label" :  "label_dealerEmail"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_dealerEmail" }'
             android:inputType="textEmailAddress"
             android:id="@+id/dealerEmail"
             style="@style/form_field" />

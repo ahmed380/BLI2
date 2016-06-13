@@ -30,7 +30,7 @@
             android:text="@string/label_nOfCars"/>
         <EditText
             style="@style/form_field"
-            android:inputType="number"
+            android:inputType='number'
             android:id="@+id/nOfCars"/>
 
 

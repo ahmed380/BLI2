@@ -1,8 +1,6 @@
 package com.smehsn.compassinsurance.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -13,7 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.form.provider.DealerInfoProvider;
+import com.smehsn.compassinsurance.beans.DealerInfoProvider;
+import com.smehsn.compassinsurance.context.AppContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,40 +21,39 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 123;
 
+    private static final Class DEBUGGABLE_ACTIVITY = CompleteFormActivity.class;
+    private DealerInfoProvider dealerInfoProvider;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        initBeans();
         if (checkPermissions())
             routeActivities();
 
 
     }
 
+    private void initBeans() {
+        dealerInfoProvider = (DealerInfoProvider) ((AppContext) getApplication()).get(DealerInfoProvider.BEAN_KEY);
+    }
+
     private void routeActivities() {
 
         Class activityClass;
-        if(!dealerIdentified()){
+        if(!dealerInfoProvider.dealerIdentified()){
             activityClass = DealerRegisterActivity.class;
         }
-        else{
+        else if (DEBUGGABLE_ACTIVITY == null){
             activityClass = CompleteFormActivity.class;
+        }
+        else{
+            activityClass = DEBUGGABLE_ACTIVITY;
         }
         startActivity(new Intent(this, activityClass));
         finish();
 
-    }
-
-
-    private boolean dealerIdentified(){
-        SharedPreferences prefs = getSharedPreferences(DealerInfoProvider.PREF_NAME, Context.MODE_PRIVATE);
-        return prefs.getBoolean(DealerRegisterActivity.DEALER_IDENTIFIED_FLAG, false);
-    }
-
-    private void openFormActivity(){
-        Intent intent = new Intent(this, CompleteFormActivity.class);
-        startActivity(intent);
     }
 
 

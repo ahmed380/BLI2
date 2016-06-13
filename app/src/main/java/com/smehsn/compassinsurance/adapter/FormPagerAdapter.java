@@ -6,11 +6,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.fragment.PaginatedFormFragment;
-import com.smehsn.compassinsurance.fragment.PhotoAttachmentFragment;
-
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class FormPagerAdapter extends FragmentPagerAdapter {
@@ -51,11 +46,7 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        if (position < LAYOUT_RES_IDS.length){
-            return PaginatedFormFragment.newInstance(LAYOUT_RES_IDS[position], PAGE_TITLES[position], position);
-        }else if(position == ITEMS_COUNT - 1){
-            return PhotoAttachmentFragment.newInstance(PAGE_TITLES[position], position);
-        }
+
         return null;
     }
 

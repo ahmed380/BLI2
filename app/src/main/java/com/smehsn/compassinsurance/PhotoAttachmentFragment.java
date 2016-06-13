@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.fragment;
+package com.smehsn.compassinsurance;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -9,24 +9,20 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
-import com.smehsn.compassinsurance.form.AttachmentProvider;
-import com.smehsn.compassinsurance.form.FormObjectProvider;
-import com.smehsn.compassinsurance.form.PhotoAttachment;
-import com.smehsn.compassinsurance.form.ValidationException;
+import com.smehsn.compassinsurance.parser.FormValidationException;
+import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +31,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 
-public class PhotoAttachmentFragment extends Fragment implements FormObjectProvider, AttachmentProvider {
+public class PhotoAttachmentFragment extends FormHostingFragment implements AttachmentProvider {
     public static final  String TAG                   = PhotoAttachmentFragment.class.getSimpleName();
     private static final int    REQUEST_IMAGE_CAPTURE = 1;
 
@@ -208,24 +204,17 @@ public class PhotoAttachmentFragment extends Fragment implements FormObjectProvi
     }
 
 
-
     @Override
-    public Object getFormModelObject() throws ValidationException {
-        PhotoAttachment attachment = new PhotoAttachment();
-        attachment.setDrivingLicensePhoto((imageLicense.getDrawable() == null) ? "blank" : "Attached to the email");
-        attachment.setVinNumberPhoto((imageVin.getDrawable() == null) ? "blank" : "Attached to the email");
-        return attachment;
+    public Map<String, String> parseForm() throws FormValidationException {
+        super.parseForm();
+        Map<String, String> form = new LinkedHashMap<>();
+        form.put(getString(R.string.label_drivingLicensePhoto), (imageLicense.getDrawable() == null ? "blank" : "See attachments email"));
+        form.put(getString(R.string.label_vinNumberPhoto), (imageVin.getDrawable() == null ? "blank" : "See attachments email"));
+        return form;
     }
 
     @Override
-    public int getPagePosition() {
-        return positionInViewPager;
+    public String getFormTitle() {
+        return pageTitle;
     }
-
-    @Override
-    public String getTitle() {
-        return FormPagerAdapter.PAGE_TITLES[positionInViewPager];
-    }
-
-
 }

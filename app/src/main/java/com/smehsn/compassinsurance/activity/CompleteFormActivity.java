@@ -24,11 +24,6 @@ import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
 import com.smehsn.compassinsurance.email.EmailFinishedEvent;
-import com.smehsn.compassinsurance.form.AttachmentProvider;
-import com.smehsn.compassinsurance.form.DealerInfo;
-import com.smehsn.compassinsurance.form.FormObjectProvider;
-import com.smehsn.compassinsurance.form.ValidationException;
-import com.smehsn.compassinsurance.form.provider.DealerInfoProvider;
 import com.smehsn.compassinsurance.util.Helper;
 import com.squareup.otto.Subscribe;
 
@@ -103,7 +98,6 @@ public class CompleteFormActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         formContainsValidationErrors = savedInstanceState.getBoolean("formContainsValidationErrors");
-        emailIsSending = savedInstanceState.getBoolean("emailIsSending");
 
         //Request form validation to highlight errors
         if (formContainsValidationErrors)
@@ -114,9 +108,6 @@ public class CompleteFormActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //save previous validation check result to highlight errors after state restore
-        outState.putBoolean("formContainsValidationErrors", formContainsValidationErrors);
-        outState.putBoolean("emailIsSending", emailIsSending);
     }
 
 
@@ -205,23 +196,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         formContainsValidationErrors = false;
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             if (fragment != null && fragment.isAdded()) {
-                try {
-                    if (fragment instanceof FormObjectProvider) {
-                        FormObjectProvider provider = (FormObjectProvider) fragment;
-                        Object modelObject = provider.getFormModelObject();
-                        int position = provider.getPagePosition();
-                        positionToFormModelMapping.put(position, modelObject);
-                    }
-                    if (fragment instanceof AttachmentProvider) {
-                        AttachmentProvider provider = (AttachmentProvider) fragment;
-                        List<File> fragmentAttachments = provider.getAttachedFiles();
-                        for (File f : fragmentAttachments)
-                            attachments.add(f);
-                    }
-                } catch (ValidationException e) {
-                    formContainsValidationErrors = true;
-                    positionToMessageMapping.put(e.getPagePosition(), e.getValidationErrorMessage());
-                }
+
             }
         }
 
@@ -244,7 +219,7 @@ public class CompleteFormActivity extends AppCompatActivity {
             final String formattedDate = sdf.format(Calendar.getInstance().getTime());
             final Email email = new Email()
                     .setRecipientAddresses(getResources().getStringArray(R.array.recipient_email_addresses))
-                    .setSubject(DealerInfoProvider.getInstance(this).getDealerName() + " " + formattedDate)
+                    .setSubject(" " + formattedDate)
                     .setBody(buildEmailBody(positionToFormModelMapping))
                     .setAttachments(attachments);
             sendEmail(email);
@@ -287,13 +262,7 @@ public class CompleteFormActivity extends AppCompatActivity {
     private String buildEmailBody(Map<Integer, Object> positionToModelMapping) {
         StringBuilder email = new StringBuilder();
 
-        DealerInfoProvider provider =  DealerInfoProvider.getInstance(this);
-        DealerInfo dealerInfo = (DealerInfo) provider.getFormModelObject();
 
-        email.append(Helper.objectToEmailBody(
-                this,
-                provider.getTitle(),
-                dealerInfo));
         for (Integer position : positionToModelMapping.keySet()) {
 
             email.append(Helper.objectToEmailBody(
