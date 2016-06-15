@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.ConfigurationActivity"
+            android:name=".activity.SettingsActivity"
             android:label="Dealer Registration">
         </activity>
 

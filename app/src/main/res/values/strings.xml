@@ -95,6 +95,7 @@
     <string name="label_testEmail">Send test email</string>
     <string name="label_recipientEmail">Recipient email</string>
     <string name="label_save">Save</string>
+    <string name="label_settings">Settings</string>
 
 
 </resources>

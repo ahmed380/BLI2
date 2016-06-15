@@ -1,5 +1,6 @@
 package com.smehsn.compassinsurance.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -38,7 +39,7 @@ public class EmailConfigFragment extends FormHostingFragment {
     private FormParser parser;
     private EmailConfig emailConfig;
     private View rootView;
-
+    private EmailConfigListener listener;
 
     @BindView(R.id.clientEmail)
     EditText clientEmail;
@@ -55,20 +56,27 @@ public class EmailConfigFragment extends FormHostingFragment {
     }
 
     @OnClick(R.id.testConnection)
-    void onTetsButtonClicked(){
+    void onTestButtonClicked(){
         try {
             parseForm();
             sendEmail();
         } catch (FormValidationException e) {
-            e.printStackTrace();
             Snackbar.make(rootView, e.getErrorMessage(), Snackbar.LENGTH_LONG).show();
         }
-
     }
 
 
+    @Override
+    public void onAttach(Activity activity){
+        super.onAttach(activity);
+        listener = (EmailConfigListener) activity;
+    }
 
-
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
 
     private void sendEmail(){
         String email = clientEmail.getText().toString();
@@ -123,10 +131,14 @@ public class EmailConfigFragment extends FormHostingFragment {
         }
         if (ev.isSuccess()){
             emailConfig.setVerified(true);
-            Toast.makeText(getContext(), "Sent", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "Test email sent", Toast.LENGTH_SHORT).show();
+            if (listener != null){
+                listener.emailConfigurationFinished();
+            }
         }
-        else
-            Toast.makeText(getContext(), "Failure", Toast.LENGTH_SHORT).show();
+        else{
+            Snackbar.make(rootView, "Failed to send test email", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Nullable
@@ -148,6 +160,10 @@ public class EmailConfigFragment extends FormHostingFragment {
     @Override
     public String getFormTitle() {
         return null;
+    }
+
+    public interface EmailConfigListener{
+        void emailConfigurationFinished();
     }
 
 }

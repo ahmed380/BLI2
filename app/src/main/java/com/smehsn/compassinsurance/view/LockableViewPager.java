@@ -10,7 +10,7 @@ import android.view.MotionEvent;
  */
 public class LockableViewPager extends ViewPager {
 
-    private boolean isLocked = false;
+    private boolean isLocked = true;
 
     public LockableViewPager(Context context) {
         super(context);

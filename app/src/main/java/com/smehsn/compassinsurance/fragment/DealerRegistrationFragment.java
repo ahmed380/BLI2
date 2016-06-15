@@ -1,7 +1,9 @@
 package com.smehsn.compassinsurance.fragment;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +28,7 @@ public class DealerRegistrationFragment extends FormHostingFragment {
     private View rootView;
     private FormParser formParser;
     private Dealer dealer;
+    private DealerRegistrationListener listener;
 
     @BindView(R.id.dealerName)
     EditText dealerName;
@@ -51,8 +54,10 @@ public class DealerRegistrationFragment extends FormHostingFragment {
             dealer.setEmail(dealerEmail.getText().toString());
             dealer.setFax(dealerFax.getText().toString());
             dealer.setName(dealerName.getText().toString());
+            if (listener != null)
+                listener.dealerRegistered();
         } catch (FormValidationException e) {
-            e.printStackTrace();
+            Snackbar.make(rootView, e.getErrorMessage(), Snackbar.LENGTH_LONG).show();
         }
     }
 
@@ -60,9 +65,20 @@ public class DealerRegistrationFragment extends FormHostingFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         dealer = Dealer.getInstance(getContext());
+    }
 
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        listener = (DealerRegistrationListener)activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
     }
 
     @Nullable
@@ -84,5 +100,9 @@ public class DealerRegistrationFragment extends FormHostingFragment {
     @Override
     public String getFormTitle() {
         return null;
+    }
+
+    public interface DealerRegistrationListener{
+        void dealerRegistered();
     }
 }

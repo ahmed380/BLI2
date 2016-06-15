@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 123;
     private static final boolean DEBUG_MODE = true;
-    private static final Class DEBUGGABLE_ACTIVITY = CompleteFormActivity.class;
+    private static final Class DEBUGGABLE_ACTIVITY = SettingsActivity.class;
     private Dealer dealer;
 
 
@@ -47,11 +47,16 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, CompleteFormActivity.class));
     }
 
+    @OnClick(R.id.button2)
+    void onOpenSettings(){
+        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+    }
+
     private void routeActivities() {
 
         Class activityClass;
         if(!dealer.isIdentified()){
-            activityClass = ConfigurationActivity.class;
+            activityClass = SettingsActivity.class;
         }
         else if (DEBUGGABLE_ACTIVITY == null){
             activityClass = CompleteFormActivity.class;

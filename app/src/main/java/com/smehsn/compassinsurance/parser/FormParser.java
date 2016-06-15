@@ -46,7 +46,8 @@ public class FormParser {
             View child = parent.getChildAt(i);
             if(child instanceof ViewGroup && !(child instanceof Spinner)){
                 scanViewTree((ViewGroup) child);
-            }else if ( child.getTag() != null){
+            }
+            else if ( child.getTag() != null){
                 String tag = (String) child.getTag();
                 try {
                     JSONObject config = new JSONObject(tag);
@@ -54,7 +55,6 @@ public class FormParser {
                 } catch (JSONException e) {
                     throw new IllegalArgumentException("Can't parse json tag for " + child.toString());
                 }
-
             }
         }
     }
@@ -133,11 +133,11 @@ public class FormParser {
                         element.labelView.setBackgroundColor(context.getResources().getColor(R.color.label_error_background));
                     if(firstErrorMessage == null)
                         firstErrorMessage = validator.errorMessage(element.label);
-                }else if (element.labelView != null){
+                }
+                else if (element.labelView != null){
                     element.labelView.setBackgroundColor(context.getResources().getColor(R.color.label_default_background));
                 }
             }
-
             labelToInputMapping.put(element.label, converted);
         }
 
