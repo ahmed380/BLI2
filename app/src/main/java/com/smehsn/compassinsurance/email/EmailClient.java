@@ -43,7 +43,7 @@ public class EmailClient extends javax.mail.Authenticator {
     }
 
 
-    private EmailClient(String userEmail, String password) {
+    public EmailClient(String userEmail, String password) {
         super();
         this.userEmail = userEmail;
         this.password = password;

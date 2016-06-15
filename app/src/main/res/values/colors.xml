@@ -8,4 +8,6 @@
     <color name="label_default_background">#eeeeee</color>
     <color name="label_error_background">#f8bbd0</color>
     <color name="drawer_background">#00796b</color>
+
+    <color name="text_color">#333</color>
 </resources>

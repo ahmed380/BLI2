@@ -22,24 +22,6 @@
 
 
 
-        <TextView
-            style="@style/form_label"
-            android:text="@string/label_vinNumberPhoto"
-            android:id="@+id/label_vinNumberPhoto"/>
-        <Button
-            android:tag="vinNumberPhoto"
-            android:text="@string/photo_action_prompt"
-            style="@style/form_action_button"
-            android:id="@+id/action_vinNumberPhoto"/>
-        <ImageView
-            android:background="#eee"
-            android:visibility="gone"
-            android:tag="drivingLicensePhoto"
-            style="@style/form_attachment_image"
-            android:id="@+id/image_vinNumberPhoto"/>
-
-
-
     </LinearLayout>
 
 

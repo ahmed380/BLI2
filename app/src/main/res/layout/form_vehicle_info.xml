@@ -11,22 +11,20 @@
             style="@style/form_label"
             android:text="@string/label_make" />
 
-        <Spinner
+        <EditText
             android:id="@+id/make"
-            style="@style/form_spinner"
-            android:tag = '{ "label" :  "label_make"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_make" }'
-            android:entries="@array/nonOwner_options" />
+            style="@style/form_field"
+            android:tag = '{ "label" :  "label_make"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_make" }'/>
 
         <TextView
             android:id="@+id/label_model"
             style="@style/form_label"
             android:text="@string/label_model" />
 
-        <Spinner
-            android:tag = '{ "label" :  "label_model"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_model" }'
+        <EditText
+            android:tag = '{ "label" :  "label_model"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_model" }'
             android:id="@+id/model"
-            style="@style/form_spinner"
-            android:entries="@array/nonOwner_options" />
+            style="@style/form_field"/>
 
 
 
@@ -36,10 +34,11 @@
             style="@style/form_label"
             android:text="@string/label_modelYear" />
 
-        <Spinner
-            android:tag = '{ "label" :  "label_modelYear"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_modelYear" }'
+        <EditText
+            android:tag = '{ "label" :  "label_modelYear"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_modelYear" }'
             android:id="@+id/modelYear"
-            style="@style/form_spinner"
+            style="@style/form_field"
+            android:inputType="numberDecimal"
             android:entries="@array/nonOwner_options" />
 
 
@@ -49,7 +48,7 @@
             android:text="@string/label_vin" />
 
         <EditText
-            android:tag = '{ "label" :  "label_vin"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_vin" }'
+            android:tag = '{ "label" :  "label_vin"  ,  "strategy": "edit_text"  ,   "validators": ["required" ]   ,   "labelView": "label_vin" }'
             android:id="@+id/vin"
             style="@style/form_field" />
 

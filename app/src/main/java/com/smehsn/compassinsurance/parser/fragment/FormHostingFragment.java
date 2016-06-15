@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment;
 
 import com.smehsn.compassinsurance.parser.FormValidationException;
 
-import java.util.Map;
-
 import icepick.Icepick;
 import icepick.State;
 
@@ -15,7 +13,6 @@ import icepick.State;
  * @author Sam
  */
 public abstract class FormHostingFragment extends Fragment implements FormProvider{
-
     @State boolean wasParseRequested = false;
 
     @Override
@@ -36,9 +33,11 @@ public abstract class FormHostingFragment extends Fragment implements FormProvid
         }
     }
 
-    @Override
-    public Map<String, String> parseForm() throws FormValidationException {
-        wasParseRequested = true;
-        return null;
+
+
+    public void setWasParseRequested(boolean val){
+        this.wasParseRequested = val;
     }
+
+
 }

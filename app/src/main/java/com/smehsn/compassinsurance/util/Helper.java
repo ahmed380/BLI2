@@ -15,9 +15,10 @@ public class Helper {
         for (Map.Entry<String, Map<String, String>> entry: email.entrySet()){
             String formSubtitle = entry.getKey();
             sb
-                    .append("<h4>")
+                    .append("<h3>")
                     .append(formSubtitle)
-                    .append("</h4>");
+                    .append("</h3>")
+                    .append("<fieldset>");
             for (Map.Entry<String, String> fields: entry.getValue().entrySet()){
                 sb
                         .append("<i><b>")
@@ -27,7 +28,7 @@ public class Helper {
                         .append(TextUtils.isEmpty(fields.getValue())? "blank": fields.getValue())
                         .append("<br/>");
             }
-            sb.append("<br/>");
+            sb.append("</fieldset>");
 
         }
         return sb.toString();

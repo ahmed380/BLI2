@@ -6,17 +6,21 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.smehsn.compassinsurance.R;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
-public class StrategyProvider {
+public class ConvertStrategyProvider {
     protected static  Map<String, StringConverter> strategyMap = new HashMap<>();
     static {
         strategyMap.put("text_view", new TextViewConverter());
         strategyMap.put("edit_text", new EditTextConverter());
         strategyMap.put("button", new ButtonConverter());
         strategyMap.put("spinner", new SpinnerConverter());
+        strategyMap.put("ignore_default_spinner", new IgnoreDefaultSpinnerConverter());
+        strategyMap.put("date_picker", new DateConverter());
     }
 
     public static StringConverter get(String name){
@@ -79,6 +83,37 @@ public class StrategyProvider {
         }
     }
 
+    private static final class DateConverter implements StringConverter{
+
+        @Override
+        public String convertViewToString(View view) {
+            String viewText = "";
+            if (view instanceof Button){
+                viewText = ((Button) view).getText().toString();
+            }
+            else if (view instanceof EditText){
+                viewText = ((EditText) view).getText().toString();
+            }
+            else if (view instanceof TextView){
+                viewText = ((TextView) view).getText().toString();
+            }
+            else throw new IllegalArgumentException( view.getTag() + ": cannot apply "+ this.getClass().getSimpleName()+ " stringConverter for this view");
+
+            return viewText.equals(view.getContext().getString(R.string.date_picker_prompt)) ? "": viewText;
+        }
+    }
+
+
+    private static final class IgnoreDefaultSpinnerConverter implements StringConverter{
+
+        @Override
+        public String convertViewToString(View view) {
+            if (view instanceof Spinner){
+                return ((Spinner) view).getSelectedItem().toString();
+            }
+            else throw new IllegalArgumentException( view.getTag() + ": cannot apply "+ this.getClass().getSimpleName()+ " stringConverter for this view");
+        }
+    }
 
 
 //    private static final class Converter implements StringConverter{

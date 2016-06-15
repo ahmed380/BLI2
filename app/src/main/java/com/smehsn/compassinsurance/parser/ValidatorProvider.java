@@ -10,6 +10,8 @@ public class ValidatorProvider {
     protected static Map<String, FormValidator> validatorMap = new HashMap<>();
     static {
         validatorMap.put("required", new RequiredValidator());
+        validatorMap.put("vin_validator", new VinNumberValidator());
+        validatorMap.put("email_validator", new EmailValidator());
     }
 
     public static FormValidator get(String name){
@@ -26,6 +28,33 @@ public class ValidatorProvider {
         @Override
         public String errorMessage(String label) {
             return "Field " + label + " is required";
+        }
+    }
+
+    private static final class VinNumberValidator implements FormValidator{
+
+        @Override
+        public boolean isValid(String arg) {
+            return arg.replace(" ", "").length() == 17;
+        }
+
+        @Override
+        public String errorMessage(String label) {
+            return "Vin number should be 17 character long";
+        }
+    }
+
+    private static final class EmailValidator implements FormValidator{
+
+        @Override
+        public boolean isValid(String arg) {
+            return true;
+        }
+
+        @Override
+
+        public String errorMessage(String label) {
+            return null;
         }
     }
 }

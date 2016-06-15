@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance;
+package com.smehsn.compassinsurance.fragment;
 
 import android.app.Activity;
 import android.content.ContentValues;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.parser.AttachmentProvider;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;
 import com.squareup.picasso.Callback;
@@ -29,6 +31,8 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import icepick.Icepick;
+import icepick.State;
 
 
 public class PhotoAttachmentFragment extends FormHostingFragment implements AttachmentProvider {
@@ -36,18 +40,14 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     private static final int    REQUEST_IMAGE_CAPTURE = 1;
 
     private Map<Integer, Uri> resIdImageUriMapping = new HashMap<>();
-
-    private String pageTitle;
-    private int    positionInViewPager;
-    private String currentRequestedAction;
     private View   rootView;
-    private Uri    requestedImageUri;
+    @State String pageTitle;
+    @State String currentRequestedAction;
+    @State Uri    requestedImageUri;
 
 
     @BindView(R.id.image_drivingLicensePhoto)
     ImageView imageLicense;
-    @BindView(R.id.image_vinNumberPhoto)
-    ImageView imageVin;
     public PhotoAttachmentFragment() {
     }
 
@@ -55,17 +55,13 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     public static PhotoAttachmentFragment newInstance(String pageTitle, int position) {
         PhotoAttachmentFragment fragment = new PhotoAttachmentFragment();
         fragment.pageTitle = pageTitle;
-        fragment.positionInViewPager = position;
         return fragment;
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("positionInViewPager", positionInViewPager);
-        outState.putString("pageTitle", pageTitle);
-        outState.putString("currentRequestedAction", currentRequestedAction);
-        outState.putParcelable("requestedImageUri", requestedImageUri);
+        Icepick.saveInstanceState(this, outState);
 
 
         if (resIdImageUriMapping != null) {
@@ -86,10 +82,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
 
     private void restoreState(Bundle savedInstanceState) {
         if (savedInstanceState != null) {
-            pageTitle = savedInstanceState.getString("pageTitle");
-            positionInViewPager = savedInstanceState.getInt("positionInViewPager");
-            currentRequestedAction = savedInstanceState.getString("currentRequestedAction");
-            requestedImageUri = savedInstanceState.getParcelable("requestedImageUri");
+            Icepick.restoreInstanceState(this, savedInstanceState);
 
             Bundle imageData = savedInstanceState.getBundle("resIdImageUriMapping");
             if (imageData != null) {
@@ -122,8 +115,6 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
 
     @OnClick({
             R.id.image_drivingLicensePhoto,
-            R.id.image_vinNumberPhoto,
-            R.id.action_vinNumberPhoto,
             R.id.action_drivingLicensePhoto
     })
     public void onTakeImageAction(View v) {
@@ -206,10 +197,8 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
 
     @Override
     public Map<String, String> parseForm() throws FormValidationException {
-        super.parseForm();
         Map<String, String> form = new LinkedHashMap<>();
         form.put(getString(R.string.label_drivingLicensePhoto), (imageLicense.getDrawable() == null ? "blank" : "See attachments email"));
-        form.put(getString(R.string.label_vinNumberPhoto), (imageVin.getDrawable() == null ? "blank" : "See attachments email"));
         return form;
     }
 

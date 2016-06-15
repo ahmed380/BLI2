@@ -5,9 +5,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.smehsn.compassinsurance.PhotoAttachmentFragment;
+import com.smehsn.compassinsurance.fragment.DriverInfoFormFragment;
+import com.smehsn.compassinsurance.fragment.PhotoAttachmentFragment;
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.parser.SimpleFormFragment;
+import com.smehsn.compassinsurance.parser.fragment.SimpleFormFragment;
 
 
 public class FormPagerAdapter extends FragmentPagerAdapter {
@@ -15,7 +16,10 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
     public static final String[] PAGE_TITLES = new String[]{
             "Insured information",
             "Vehicle Information",
+            "Driver Information",
+            "Vehicle Coverages",
             "Photo Attachments"
+
     };
     private static final int ITEMS_COUNT = PAGE_TITLES.length;
 
@@ -43,6 +47,10 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 return SimpleFormFragment.newInstance(R.layout.form_vehicle_info, PAGE_TITLES[position]);
             case 2:
+                return DriverInfoFormFragment.newInstance( PAGE_TITLES[position]);
+            case 3:
+                return SimpleFormFragment.newInstance(R.layout.form_vehicle_coverages, PAGE_TITLES[position]);
+            case 4:
                 return PhotoAttachmentFragment.newInstance(PAGE_TITLES[position], position);
         }
         return null;

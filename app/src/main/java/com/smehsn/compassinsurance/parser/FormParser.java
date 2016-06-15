@@ -1,17 +1,13 @@
-package com.smehsn.compassinsurance.parser.fragment;
+package com.smehsn.compassinsurance.parser;
 
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.parser.FormValidationException;
-import com.smehsn.compassinsurance.parser.FormValidator;
-import com.smehsn.compassinsurance.parser.StrategyProvider;
-import com.smehsn.compassinsurance.parser.StringConverter;
-import com.smehsn.compassinsurance.parser.ValidatorProvider;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -48,9 +44,9 @@ public class FormParser {
     private void scanViewTree(ViewGroup parent){
         for (int i=0; i<parent.getChildCount(); ++i){
             View child = parent.getChildAt(i);
-            if(child instanceof ViewGroup){
+            if(child instanceof ViewGroup && !(child instanceof Spinner)){
                 scanViewTree((ViewGroup) child);
-            }else if (child != null && child.getTag() != null){
+            }else if ( child.getTag() != null){
                 String tag = (String) child.getTag();
                 try {
                     JSONObject config = new JSONObject(tag);
@@ -84,7 +80,7 @@ public class FormParser {
         //Required configuration fields
         // strategy: String
         try{
-            element.stringConverter = StrategyProvider.get(config.getString("strategy"));
+            element.stringConverter = ConvertStrategyProvider.get(config.getString("strategy"));
         }catch (JSONException e){
             throw new IllegalArgumentException("View must contain stringConverter config field in android:tag");
         }
@@ -125,6 +121,10 @@ public class FormParser {
         String firstErrorMessage = null;
 
         for (Map.Entry<String, FormElement> entry: labelToElementMap.entrySet()){
+
+            if (!entry.getValue().inputView.isShown())
+                continue;
+
             FormElement element = entry.getValue();
             String converted = element.stringConverter.convertViewToString(element.inputView);
             for (FormValidator validator: element.validators){

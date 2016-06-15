@@ -36,15 +36,19 @@
 
     <!-- GeneralInfo-->
     <string name="label_date">Effective Date</string>
-    <string name="label_policy">Policy Term</string>
     <string name="label_nOfCars">No. of Cars</string>
     <string name="label_nOfDrivers">No. of Drivers</string>
     <string name="label_nOfExclusions">No. of Exclusions</string>
 
 
+    <!--Driver Info-->
+    <string name="label_driverOneLicense">Driver License Number</string>
+    <string name="label_driverTwoName">Second Driver License Number</string>
+    <string name="label_dob">Date of birth</string>
+    <string name="label_driverTwo">Second driver</string>
+
     <!-- Coverages -->
     <string name="label_nonOwner">Non-owner</string>
-    <string name="label_liability">Liability</string>
     <string name="label_medicalPayments">Medical Payments</string>
     <string name="label_umBi">UM/UIM BI</string>
     <string name="label_uninsuredPd">Uninsured PD</string>
@@ -63,99 +67,19 @@
     <string name="label_vehicleRegion">Region</string>
 
     <!--VehicleCoverages-->
-    <string name="label_comprehensive">Comprehensive</string>
-    <string name="label_towingLimit">Towing Limit</string>
-    <string name="label_customEquipment">Custom Equipment</string>
-    <string name="label_collision">Collision</string>
-    <string name="label_rentalLimit">Rental Limit</string>
-    <string name="label_gap">Gap</string>
+    <string name="label_policyTerm">Policy Term</string>
+    <string name="label_nameOfHolder">Name of Lien Holder</string>
+    <string name="label_fullCoverage">Full Coverage</string>
+    <string name="label_deductible">Deductible</string>
+    <string name="label_liability">Liability</string>
+
+
 
     <!--PhotoAttachment-->
     <string name="label_drivingLicensePhoto">Photo of driving license</string>
     <string name="label_vinNumberPhoto">Photo of VIN number</string>
 
 
-    <!--Spinner entries-->
-    <string-array name="us_states_options">
-        <item>Choose your state</item>
-        <item>Alabama,AL</item>
-        <item>Alaska,AK</item>
-        <item>American Samoa,AS</item>
-        <item>Arizona,AZ</item>
-        <item>Arkansas,AR</item>
-        <item>California,CA</item>
-        <item>Colorado,CO</item>
-        <item>Connecticut,CT</item>
-        <item>Delaware,DE</item>
-        <item>District of Columbia,DC</item>
-        <item>Florida,FL</item>
-        <item>Georgia,GA</item>
-        <item>Guam,GU</item>
-        <item>Hawaii,HI</item>
-        <item>Idaho,ID</item>
-        <item>Illinois,IL</item>
-        <item>Indiana,IN</item>
-        <item>Iowa,IA</item>
-        <item>Kansas,KS</item>
-        <item>Kentucky,KY</item>
-        <item>Louisiana,LA</item>
-        <item>Maine,ME</item>
-        <item>Maryland,MD</item>
-        <item>Massachusetts,MH</item>
-        <item>Michigan,MI</item>
-        <item>Micronesia,FM</item>
-        <item>Minnesota,MN</item>
-        <item>Mississippi,MS</item>
-        <item>Missouri,MO</item>
-        <item>Montana,MT</item>
-        <item>Nebraska,NE</item>
-        <item>Nevada,NV</item>
-        <item>New Hampshire,NH</item>
-        <item>New Jersey,NJ</item>
-        <item>New Mexico,NM</item>
-        <item>New York,NY</item>
-        <item>North Carolina,NC</item>
-        <item>North Dakota,ND</item>
-        <item>Northern Marianas Islands,MP</item>
-        <item>Ohio,OH</item>
-        <item>Oklahoma,OK</item>
-        <item>Oregon,OR</item>
-        <item>Palau,PW</item>
-        <item>Pennsylvania,PA</item>
-        <item>Puerto Rico,PR</item>
-        <item>Rhode Island,RI</item>
-        <item>South Carolina,SC</item>
-        <item>South Dakota,SD</item>
-        <item>Tennessee,TN</item>
-        <item>Texas,TX</item>
-        <item>Utah,UT</item>
-        <item>Vermont,VT</item>
-        <item>Virginia,VA</item>
-        <item>Virgin Islands,VI</item>
-        <item>Washington,WA</item>
-        <item>West Virginia,WV</item>
-        <item>Wisconsin,WI</item>
-        <item>Wyoming,WY</item>
-    </string-array>
-
-
-    <string-array name="policy_options">
-        <item>Choose a policy option</item>
-        <item>Annual</item>
-    </string-array>
-
-    <string-array name="nonOwner_options">
-        <item>Choose an option</item>
-        <item>Yes</item>
-        <item>No</item>
-    </string-array>
-
-
-    <string-array name="coverage_options">
-        <item>Choose an option</item>
-        <item>No Coverage</item>
-        <item>With Coverage</item>
-    </string-array>
 
 
     <!--App UI string resources-->
@@ -165,6 +89,12 @@
     <string name="date_picker_prompt">Tap to select date</string>
     <string name="photo_action_prompt">Tap to take a photo</string>
     <string name="action_settings">Settings</string>
+    <string name="submit_prompt">Get Instant Free Quote</string>
+    <string name="label_clientEmail">Client Email</string>
+    <string name="label_clientPassword">Client Email Password</string>
+    <string name="label_testEmail">Send test email</string>
+    <string name="label_recipientEmail">Recipient email</string>
+    <string name="label_save">Save</string>
 
 
 </resources>

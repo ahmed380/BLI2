@@ -16,7 +16,7 @@
             style="@style/form_label"
             android:text="@string/label_name" />
         <EditText
-            android:tag = '{ "label" :  "label_name"  ,  "strategy": "edit_text"  ,   "validators": ["required"]   ,   "labelView": "label_name" }'
+            android:tag = '{ "label" :  "label_name"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_name" }'
             android:id="@+id/name"
             style="@style/form_field" />
 
@@ -68,7 +68,7 @@
             style="@style/form_label"
             android:text="@string/label_state" />
         <Spinner
-            android:tag = '{ "label" :  "label_state"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_state" }'
+            android:tag = '{ "label" :  "label_state"  ,  "strategy": "ignore_default_spinner"  ,   "validators": []   ,   "labelView": "label_state" }'
             android:id="@+id/state"
             android:entries="@array/us_states_options"
             style="@style/form_spinner" />

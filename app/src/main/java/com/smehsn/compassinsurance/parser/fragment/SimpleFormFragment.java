@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.parser;
+package com.smehsn.compassinsurance.parser.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;
-import com.smehsn.compassinsurance.parser.fragment.FormParser;
+import com.smehsn.compassinsurance.parser.FormParser;
+import com.smehsn.compassinsurance.parser.FormValidationException;
 
 import java.util.Map;
 
@@ -50,7 +50,7 @@ public final class SimpleFormFragment extends FormHostingFragment {
 
     @Override
     public Map<String, String> parseForm() throws FormValidationException {
-        super.parseForm();
+        super.setWasParseRequested(true);
         return formParser.parse();
     }
 

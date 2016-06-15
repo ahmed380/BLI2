@@ -5,9 +5,62 @@
         style="@style/form_page_root_view">
 
 
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_policyTerm"
+            android:id="@+id/label_policyTerm" />
+
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/policyTerm"
+            android:entries="@array/policy_options"
+            android:tag='{ "label" :  "label_policyTerm"  ,  "strategy": "ignore_default_spinner"  ,   "validators": []   ,   "labelView": "label_policyTerm" }' />
 
 
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_nameOfHolder"
+            android:id="@+id/label_nameOfHolder" />
+
+        <EditText
+            style="@style/form_field"
+            android:id="@+id/nameOfHolder"
+            android:tag='{ "label" :  "label_nameOfHolder"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_nameOfHolder" }' />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_fullCoverage"
+            android:id="@+id/label_fullCoverage" />
+
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/fullCoverage"
+            android:entries="@array/yes_no_with_prompt"
+            android:tag='{ "label" :  "label_fullCoverage"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_fullCoverage" }' />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_deductible"
+            android:id="@+id/label_deductible" />
+
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/deductible"
+            android:entries="@array/deductible_with_prompt"
+            android:tag='{ "label" :  "label_deductible"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_deductible" }' />
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_liability"
+            android:id="@+id/label_liability" />
+
+        <Spinner
+            style="@style/form_spinner"
+            android:id="@+id/liability"
+            android:entries="@array/yes_no_with_prompt"
+            android:tag='{ "label" :  "label_liability"  ,  "strategy": "spinner"  ,   "validators": []   ,   "labelView": "label_liability" }' />
     </LinearLayout>
-
-
 </ScrollView>

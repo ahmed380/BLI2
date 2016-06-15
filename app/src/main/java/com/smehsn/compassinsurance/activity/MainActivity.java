@@ -11,8 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.dao.DealerInfoProvider;
-import com.smehsn.compassinsurance.context.AppContext;
+import com.smehsn.compassinsurance.dao.Dealer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +22,9 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 123;
-
-
-    private static final boolean DEBUG_MODE = false;
+    private static final boolean DEBUG_MODE = true;
     private static final Class DEBUGGABLE_ACTIVITY = CompleteFormActivity.class;
-    private DealerInfoProvider dealerInfoProvider;
-
+    private Dealer dealer;
 
 
     @Override
@@ -42,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initBeans() {
-        dealerInfoProvider = (DealerInfoProvider) ((AppContext) getApplication()).get(DealerInfoProvider.BEAN_KEY);
+        dealer = Dealer.getInstance(this);
     }
 
 
@@ -54,8 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private void routeActivities() {
 
         Class activityClass;
-        if(!dealerInfoProvider.dealerIdentified()){
-            activityClass = DealerRegisterActivity.class;
+        if(!dealer.isIdentified()){
+            activityClass = ConfigurationActivity.class;
         }
         else if (DEBUGGABLE_ACTIVITY == null){
             activityClass = CompleteFormActivity.class;
@@ -64,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
             activityClass = DEBUGGABLE_ACTIVITY;
         }
         startActivity(new Intent(this, activityClass));
-        finish();
     }
 
 

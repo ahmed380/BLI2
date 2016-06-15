@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance;
+package com.smehsn.compassinsurance.parser;
 
 import java.io.File;
 import java.util.List;

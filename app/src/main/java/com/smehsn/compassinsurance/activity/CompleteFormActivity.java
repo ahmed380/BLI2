@@ -20,15 +20,14 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.smehsn.compassinsurance.AttachmentProvider;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
-import com.smehsn.compassinsurance.context.AppContext;
-import com.smehsn.compassinsurance.dao.DealerInfoProvider;
+import com.smehsn.compassinsurance.dao.Dealer;
 import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
 import com.smehsn.compassinsurance.email.EmailFinishedEvent;
+import com.smehsn.compassinsurance.parser.AttachmentProvider;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.fragment.FormProvider;
 import com.smehsn.compassinsurance.util.Helper;
@@ -58,9 +57,10 @@ public class CompleteFormActivity extends AppCompatActivity {
     @BindView(R.id.drawerListView)
     ListView drawerListView;
 
+
     private FragmentPagerAdapter viewPagerAdapter;
     private EmailClient          emailClient;
-    private DealerInfoProvider   dealerInfoProvider;
+    private Dealer               dealer;
 
     //************* Lifecycle callbacks *******************************
     @Override
@@ -99,7 +99,7 @@ public class CompleteFormActivity extends AppCompatActivity {
 
     //************* Initializers *******************************
     private void initBeans(){
-        dealerInfoProvider = (DealerInfoProvider) ((AppContext)getApplication()).get(DealerInfoProvider.BEAN_KEY);
+        dealer = Dealer.getInstance(this);
     }
 
     private void initViewPager() {
@@ -112,6 +112,8 @@ public class CompleteFormActivity extends AppCompatActivity {
     }
 
     private void initDrawerLayout() {
+
+
         drawerLayout.closeDrawer(GravityCompat.START);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(
                 this,
@@ -213,7 +215,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         }else {
             Email email = new Email()
                     .setBody(Helper.createEmailBody(formData))
-                    .setSubject(dealerInfoProvider.getDealerName() + " : " + new Date().toString())
+                    .setSubject(dealer.getName() + " : " + new Date().toString())
                     .setRecipientAddresses(getResources().getStringArray(R.array.recipient_email_addresses));
             if (attachmentProvider != null) {
                 email.setAttachments(attachmentProvider.getAttachedFiles());

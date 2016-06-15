@@ -1,0 +1,82 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+    <LinearLayout
+        style="@style/form_page_root_view">
+
+
+        <TextView
+            android:id="@+id/label_driverOneLicense"
+            style="@style/form_label"
+            android:text="@string/label_driverOneLicense"/>
+        <EditText
+            android:id="@+id/driverOneLicense"
+            style="@style/form_field"
+            android:tag='{ "label" :  "label_driverOneLicense"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_driverOneLicense" }'/>
+
+
+        <CheckBox
+            style="@style/form_checkbox"
+            android:id="@+id/secondDriverCheckbox"
+            android:textColor="@color/text_color"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="@string/label_driverTwo"/>
+
+        <LinearLayout
+            android:id="@+id/secondDriverForm"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/label_driverTwoName"
+                style="@style/form_label"
+                android:text="@string/label_driverTwoName"/>
+            <EditText
+                android:id="@+id/driverTwoName"
+                style="@style/form_field"
+                android:tag = '{ "label" :  "label_driverTwoName"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_driverTwoName" }'/>
+
+
+            <TextView
+                style="@style/form_label"
+                android:id="@+id/label_dob"
+                android:text="@string/label_dob"/>
+
+            <TextView
+                android:id="@+id/datePicker"
+                android:tag = '{ "label" :  "label_dob"  ,  "strategy": "date_picker"  ,   "validators": []   ,   "labelView": "label_dob" }'
+                style="@style/form_action_button"
+                android:text="@string/date_picker_prompt"/>
+
+
+            <TextView
+                style="@style/form_label"
+                android:text="@string/label_address"
+                android:id="@+id/label_address"/>
+            <EditText
+                android:id="@+id/address"
+                style="@style/form_field"
+                android:tag = '{ "label" :  "label_address"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_address" }'/>
+
+            <TextView
+                style="@style/form_label"
+                android:text="@string/label_state"
+                android:id="@+id/label_state"/>
+            <Spinner
+                android:entries="@array/us_states_options"
+                android:id="@+id/state"
+                style="@style/form_spinner"
+                android:tag = '{ "label" :  "label_state"  ,  "strategy": "ignore_default_spinner"  ,   "validators": []   ,   "labelView": "label_state" }'/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</ScrollView>

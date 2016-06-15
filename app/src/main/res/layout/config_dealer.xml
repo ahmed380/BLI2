@@ -5,7 +5,6 @@
     <LinearLayout
         style="@style/form_page_root_view">
 
-
         <TextView
             android:id="@+id/label_dealerName"
             style="@style/form_label"
@@ -45,6 +44,13 @@
             android:id="@+id/dealerEmail"
             style="@style/form_field" />
 
+
+
+        <Button
+            android:id="@+id/saveDealer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_save"/>
 
 
     </LinearLayout>

@@ -1,0 +1,51 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <LinearLayout
+        style="@style/form_page_root_view">
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_clientEmail"
+            android:id="@+id/label_clientEmail" />
+
+        <EditText
+            style="@style/form_field"
+            android:id="@+id/clientEmail"
+            android:tag = '{ "label" :  "label_clientEmail"  ,  "strategy": "edit_text"  ,   "validators": ["required", "email_validator"]   ,   "labelView": "label_clientEmail" }'
+            android:inputType="textEmailAddress" />
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_clientPassword"
+            android:id="@+id/label_clientPassword" />
+
+        <EditText
+            style="@style/form_field"
+            android:id="@+id/clientPassword"
+            android:tag='{ "label" :  "label_clientPassword"  ,  "strategy": "edit_text"  ,   "validators": ["required"]   ,   "labelView": "label_clientPassword" }'
+            android:inputType="textPassword" />
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_recipientEmail"
+            android:id="@+id/label_recipientEmail" />
+
+        <EditText
+            android:tag = '{ "label" :  "label_recipientEmail"  ,  "strategy": "edit_text"  ,   "validators": ["required", "email_validator"]   ,   "labelView": "label_recipientEmail" }'
+            style="@style/form_field"
+            android:inputType="textEmailAddress"
+            android:id="@+id/recipientEmail"/>
+
+        <Button
+            android:layout_marginTop="@dimen/form_element_vertical_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/label_testEmail"
+            android:id="@+id/testConnection"/>
+
+
+    </LinearLayout>
+</ScrollView>
