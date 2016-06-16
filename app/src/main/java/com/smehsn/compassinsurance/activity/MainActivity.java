@@ -9,6 +9,9 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
@@ -17,6 +20,7 @@ import com.smehsn.compassinsurance.util.Helper;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -26,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     public static final boolean DEBUG_MODE = false;
     private static final Class DEBUGGABLE_ACTIVITY = SettingsActivity.class;
 
+    @BindViews({R.id.edit1, R.id.edit2, R.id.edit3})
+    List<EditText> inputs;
 
 
     @Override
@@ -42,8 +48,30 @@ public class MainActivity extends AppCompatActivity {
             routeActivities();
         }
 
+        initEditTexts();
+
     }
 
+    private void initEditTexts(){
+        for (int i=0; i<inputs.size(); ++i){
+            inputs.get(i).addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
+        }
+    }
 
 
     @OnClick(R.id.button)
