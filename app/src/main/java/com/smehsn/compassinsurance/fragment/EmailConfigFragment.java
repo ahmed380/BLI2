@@ -127,7 +127,7 @@ public class EmailConfigFragment extends FormHostingFragment {
 
 
     @Subscribe
-    void emailResult(EmailFinishedEvent ev){
+    public void emailResult(EmailFinishedEvent ev){
         Fragment fragment = getFragmentManager().findFragmentByTag(PROGRESS_FRAGMENT_TAG);
         emailConfig.setVerified(ev.isSuccess());
 
