@@ -51,7 +51,7 @@ public class EmailConfig {
     }
 
     public void setVerified(boolean verified){
-        prefs.edit().putBoolean("verified", false).apply();
+        prefs.edit().putBoolean("verified", verified).apply();
     }
 
     public boolean isVerified(){

@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.dao.Dealer;
+import com.smehsn.compassinsurance.dao.EmailConfig;
+import com.smehsn.compassinsurance.util.Helper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +24,10 @@ import butterknife.OnClick;
 public class MainActivity extends AppCompatActivity {
 
     private static final int REQUEST_PERMISSION_CODE = 123;
-    private static final boolean DEBUG_MODE = true;
+    public static final boolean DEBUG_MODE = false;
     private static final Class DEBUGGABLE_ACTIVITY = SettingsActivity.class;
     private Dealer dealer;
+    private EmailConfig emailConfig;
 
 
     @Override
@@ -39,17 +42,25 @@ public class MainActivity extends AppCompatActivity {
 
     private void initBeans() {
         dealer = Dealer.getInstance(this);
+        emailConfig = EmailConfig.getInstance(this);
     }
 
 
     @OnClick(R.id.button)
     void onOpenFormActivity(){
-        startActivity(new Intent(MainActivity.this, CompleteFormActivity.class));
+        if(Helper.isAppConfigured(this))
+            startActivity(new Intent(MainActivity.this, CompleteFormActivity.class));
+        else
+            Toast.makeText(MainActivity.this, "Please configure the application", Toast.LENGTH_SHORT).show();
     }
 
     @OnClick(R.id.button2)
     void onOpenSettings(){
-        startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        if (!Helper.isAppConfigured(this))
+            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
+        else {
+            Toast.makeText(MainActivity.this, "Application is already configured", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void routeActivities() {

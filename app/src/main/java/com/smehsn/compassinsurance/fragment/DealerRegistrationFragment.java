@@ -93,6 +93,7 @@ public class DealerRegistrationFragment extends FormHostingFragment {
 
     @Override
     public Map<String, String> parseForm() throws FormValidationException {
+        setWasParseRequested(true);
         formParser.parse();
         return null;
     }

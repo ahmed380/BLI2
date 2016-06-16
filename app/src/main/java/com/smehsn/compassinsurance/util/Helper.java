@@ -5,6 +5,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
+import com.smehsn.compassinsurance.dao.Dealer;
+import com.smehsn.compassinsurance.dao.EmailConfig;
+
 import java.util.Map;
 
 
@@ -42,5 +45,12 @@ public class Helper {
         return activeNetwork != null &&
                 activeNetwork.isConnectedOrConnecting();
 
+    }
+
+
+    public static boolean isAppConfigured(Context context){
+        Dealer dealer = Dealer.getInstance(context);
+        EmailConfig emailConfig = EmailConfig.getInstance(context);
+        return dealer.isIdentified() && emailConfig.isVerified();
     }
 }

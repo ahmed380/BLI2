@@ -49,11 +49,11 @@ public class SettingsActivity extends AppCompatActivity implements
         viewPagerAdapter = new LockableViewPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
         viewPager.setOffscreenPageLimit(viewPagerAdapter.getCount());
-
+        viewPager.setCurrentItem(0);
         if (dealer.isIdentified()) {
             viewPager.setCurrentItem(1);
         }
-        else if (emailConfig.isVerified()){
+        if (emailConfig.isVerified()){
             finish();
             Toast.makeText(SettingsActivity.this, "App settings are already set", Toast.LENGTH_SHORT).show();
         }

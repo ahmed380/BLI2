@@ -2,6 +2,7 @@ package com.smehsn.compassinsurance.email;
 
 import android.os.AsyncTask;
 
+import com.smehsn.compassinsurance.activity.MainActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 
@@ -98,6 +99,8 @@ public class EmailClient extends javax.mail.Authenticator {
             Transport.send(msg);
             return true;
         }catch (Exception ex){
+            if (MainActivity.DEBUG_MODE)
+                ex.printStackTrace();
             return false;
         }
     }

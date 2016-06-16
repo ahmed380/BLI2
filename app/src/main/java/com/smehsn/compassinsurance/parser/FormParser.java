@@ -133,6 +133,7 @@ public class FormParser {
                         element.labelView.setBackgroundColor(context.getResources().getColor(R.color.label_error_background));
                     if(firstErrorMessage == null)
                         firstErrorMessage = validator.errorMessage(element.label);
+                    break;
                 }
                 else if (element.labelView != null){
                     element.labelView.setBackgroundColor(context.getResources().getColor(R.color.label_default_background));

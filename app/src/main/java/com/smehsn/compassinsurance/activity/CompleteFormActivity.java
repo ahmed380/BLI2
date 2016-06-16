@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
 import com.smehsn.compassinsurance.dao.Dealer;
+import com.smehsn.compassinsurance.dao.EmailConfig;
 import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
@@ -61,11 +62,15 @@ public class CompleteFormActivity extends AppCompatActivity {
     private FragmentPagerAdapter viewPagerAdapter;
     private EmailClient          emailClient;
     private Dealer               dealer;
+    private EmailConfig          emailConfig;
 
     //************* Lifecycle callbacks *******************************
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
+
         setContentView(R.layout.activity_complete_form);
         ButterKnife.bind(this);
         initBeans();
@@ -100,6 +105,11 @@ public class CompleteFormActivity extends AppCompatActivity {
     //************* Initializers *******************************
     private void initBeans(){
         dealer = Dealer.getInstance(this);
+        emailConfig = EmailConfig.getInstance(this);
+        if (!Helper.isAppConfigured(this)){
+            finish();
+            Toast.makeText(CompleteFormActivity.this, "Please configure the application to submit a form", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initViewPager() {
@@ -140,8 +150,8 @@ public class CompleteFormActivity extends AppCompatActivity {
 
     private void initEmailClient() {
         emailClient = EmailClient.getInstance(
-                getString(R.string.client_email_address),
-                getString(R.string.client_email_password)
+                emailConfig.getClientEmailAddress(),
+                emailConfig.getClientEmailPassword()
         );
     }
 
@@ -216,7 +226,7 @@ public class CompleteFormActivity extends AppCompatActivity {
             Email email = new Email()
                     .setBody(Helper.createEmailBody(formData))
                     .setSubject(dealer.getName() + " : " + new Date().toString())
-                    .setRecipientAddresses(getResources().getStringArray(R.array.recipient_email_addresses));
+                    .setRecipientAddresses(emailConfig.getRecipientEmailAddressed());
             if (attachmentProvider != null) {
                 email.setAttachments(attachmentProvider.getAttachedFiles());
             }

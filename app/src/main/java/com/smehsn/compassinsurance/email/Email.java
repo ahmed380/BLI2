@@ -1,9 +1,8 @@
 package com.smehsn.compassinsurance.email;
 
 
-import android.content.Context;
-
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Email {
@@ -12,7 +11,7 @@ public class Email {
     private String[]     recipientAddresses;
 
 
-    private List<File> attachments;
+    private List<File> attachments = new ArrayList<>();
     public Email(){};
 
 
@@ -50,7 +49,8 @@ public class Email {
 
 
     public Email setAttachments(List<File> attachments) {
-        this.attachments = attachments;
+        for (File f: attachments)
+            this.attachments.add(f);
         return this;
     }
 

@@ -87,12 +87,7 @@ public class EmailConfigFragment extends FormHostingFragment {
         emailConfig.setClientEmailPassword(password);
         emailConfig.setRecipientAddressed(Collections.singletonList(recipient));
 
-        EmailClient testClient = new EmailClient(email, password);
-        Email testEmail = new Email()
-                .setRecipientAddresses(new String[]{recipient})
-                .setBody("Successfully configured client email !")
-                .setSubject("Test Email from client");
-        testClient.sendAsync(testEmail);
+
 
         Bundle args = new Bundle();
         args.putString("message", "Please wait...");
@@ -100,6 +95,14 @@ public class EmailConfigFragment extends FormHostingFragment {
 
         ProgressDialogFragment dialogFragment = ProgressDialogFragment.newInstance(args);
         dialogFragment.show(getFragmentManager(), PROGRESS_FRAGMENT_TAG);
+
+        EmailClient testClient = new EmailClient(email, password);
+        Email testEmail = new Email()
+                .setRecipientAddresses(new String[]{recipient})
+                .setBody("Successfully configured client email !")
+                .setSubject("Test Email from client");
+        testClient.sendAsync(testEmail);
+
     }
 
 
@@ -126,11 +129,12 @@ public class EmailConfigFragment extends FormHostingFragment {
     @Subscribe
     void emailResult(EmailFinishedEvent ev){
         Fragment fragment = getFragmentManager().findFragmentByTag(PROGRESS_FRAGMENT_TAG);
+        emailConfig.setVerified(ev.isSuccess());
+
         if (fragment != null){
             ((ProgressDialogFragment) fragment).dismiss();
         }
         if (ev.isSuccess()){
-            emailConfig.setVerified(true);
             Toast.makeText(getContext(), "Test email sent", Toast.LENGTH_SHORT).show();
             if (listener != null){
                 listener.emailConfigurationFinished();
@@ -153,6 +157,7 @@ public class EmailConfigFragment extends FormHostingFragment {
 
     @Override
     public Map<String, String> parseForm() throws FormValidationException {
+        setWasParseRequested(true);
         parser.parse();
         return null;
     }
