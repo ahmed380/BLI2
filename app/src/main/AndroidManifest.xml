@@ -12,16 +12,16 @@
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
     <application
-        android:name=".context.AppContext"
+        android:name="com.smehsn.compassinsurance.context.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".activity.CompleteFormActivity">
+            android:name="com.smehsn.compassinsurance.activity.CompleteFormActivity">
         </activity>
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="com.smehsn.compassinsurance.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -29,8 +29,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activity.SettingsActivity"
-            android:label="Dealer Registration">
+            android:name="com.smehsn.compassinsurance.activity.SettingsActivity"
+            android:label="Admin Configuration">
         </activity>
 
     </application>

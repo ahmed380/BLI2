@@ -3,6 +3,7 @@ package com.smehsn.compassinsurance.activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -11,8 +12,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.dao.Dealer;
-import com.smehsn.compassinsurance.dao.EmailConfig;
 import com.smehsn.compassinsurance.util.Helper;
 
 import java.util.ArrayList;
@@ -26,8 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private static final int REQUEST_PERMISSION_CODE = 123;
     public static final boolean DEBUG_MODE = false;
     private static final Class DEBUGGABLE_ACTIVITY = SettingsActivity.class;
-    private Dealer dealer;
-    private EmailConfig emailConfig;
+
 
 
     @Override
@@ -35,15 +33,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        initBeans();
-        if (checkPermissions() && DEBUG_MODE)
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkPermissions())
+                routeActivities();
+        }
+        else {
             routeActivities();
+        }
+
     }
 
-    private void initBeans() {
-        dealer = Dealer.getInstance(this);
-        emailConfig = EmailConfig.getInstance(this);
-    }
 
 
     @OnClick(R.id.button)
@@ -65,17 +65,20 @@ public class MainActivity extends AppCompatActivity {
 
     private void routeActivities() {
 
-        Class activityClass;
-        if(!dealer.isIdentified()){
+        Class activityClass = null;
+
+        if(!Helper.isAppConfigured(this)){
             activityClass = SettingsActivity.class;
         }
-        else if (DEBUGGABLE_ACTIVITY == null){
-            activityClass = CompleteFormActivity.class;
-        }
-        else{
+
+        if(DEBUG_MODE && DEBUGGABLE_ACTIVITY != null){
             activityClass = DEBUGGABLE_ACTIVITY;
         }
-        startActivity(new Intent(this, activityClass));
+
+        if (activityClass != null){
+            startActivity(new Intent(this, activityClass));
+        }
+
     }
 
 
