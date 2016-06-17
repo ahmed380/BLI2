@@ -25,10 +25,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = MainActivity.class.getSimpleName();
 
-    private static final int REQUEST_PERMISSION_CODE = 123;
-    public static final boolean DEBUG_MODE = false;
-    private static final Class DEBUGGABLE_ACTIVITY = SettingsActivity.class;
+    private static final int    REQUEST_PERMISSION_CODE = 123;
+    public  static final boolean DEBUG_MODE = false;
+    private static final Class  DEBUGGABLE_ACTIVITY = SettingsActivity.class;
 
     @BindViews({R.id.edit1, R.id.edit2, R.id.edit3})
     List<EditText> inputs;
@@ -54,15 +55,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void initEditTexts(){
         for (int i=0; i<inputs.size(); ++i){
+            final EditText current = inputs.get(i);
+            final int currPos = i;
             inputs.get(i).addTextChangedListener(new TextWatcher() {
                 @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                public void beforeTextChanged(CharSequence s, int start, int count, int after){
 
                 }
 
                 @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-
+                public void onTextChanged(CharSequence s, int start, int before, int count){
+                    if (s.length() >= 3){
+                        EditText next = inputs.get(currPos + 1);
+                        if (next != null)
+                            next.requestFocus();
+                    }
                 }
 
                 @Override

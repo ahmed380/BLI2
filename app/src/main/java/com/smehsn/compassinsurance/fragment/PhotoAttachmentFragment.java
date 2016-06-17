@@ -42,11 +42,11 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     private static final int    REQUEST_IMAGE_CAPTURE = 1;
 
     private Map<Integer, Uri> resIdImageUriMapping = new HashMap<>();
-    private View   rootView;
+    private View rootView;
     private Dealer dealer;
     @State String pageTitle;
     @State String currentRequestedAction;
-    @State Uri    requestedImageUri;
+    @State Uri requestedImageUri;
 
 
 
@@ -127,9 +127,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
             R.id.action_drivingLicensePhoto
     })
     public void onTakeImageAction(View v) {
-
         currentRequestedAction = (String) v.getTag();
-
         String storageState = Environment.getExternalStorageState();
         if (storageState.equals(Environment.MEDIA_MOUNTED)){
             File photo = new File(Environment.getExternalStorageDirectory(), "Compass Insurance/" + dealer.getName() + ": " + new Date().toString()  + ".jpg");
@@ -148,9 +146,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
             if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
                 getActivity().startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE);
             }
-
         }
-
     }
 
 
