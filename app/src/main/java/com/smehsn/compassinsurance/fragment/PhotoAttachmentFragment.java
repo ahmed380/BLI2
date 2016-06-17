@@ -1,12 +1,11 @@
 package com.smehsn.compassinsurance.fragment;
 
 import android.app.Activity;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -15,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.dao.Dealer;
 import com.smehsn.compassinsurance.parser.AttachmentProvider;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;
@@ -22,7 +22,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,9 +43,11 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
 
     private Map<Integer, Uri> resIdImageUriMapping = new HashMap<>();
     private View   rootView;
+    private Dealer dealer;
     @State String pageTitle;
     @State String currentRequestedAction;
     @State Uri    requestedImageUri;
+
 
 
     @BindView(R.id.image_drivingLicensePhoto)
@@ -100,6 +104,11 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
         }
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        dealer = Dealer.getInstance(getContext());
+    }
 
     @Nullable
     @Override
@@ -120,17 +129,28 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     public void onTakeImageAction(View v) {
 
         currentRequestedAction = (String) v.getTag();
-        ContentValues values = new ContentValues();
 
-        values.put(MediaStore.Images.Media.TITLE, "New Picture");
-        values.put(MediaStore.Images.Media.DESCRIPTION, "From your Camera");
-        requestedImageUri = getContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        String storageState = Environment.getExternalStorageState();
+        if (storageState.equals(Environment.MEDIA_MOUNTED)){
+            File photo = new File(Environment.getExternalStorageDirectory(), "Compass Insurance/" + dealer.getName() + ": " + new Date().toString()  + ".jpg");
+            try{
+                if (!photo.exists()) {
+                    photo.getParentFile().mkdirs();
+                    photo.createNewFile();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, requestedImageUri);
-        if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
-            getActivity().startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE);
+            requestedImageUri = Uri.fromFile(photo);
+            Intent photoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            photoIntent.putExtra(MediaStore.EXTRA_OUTPUT, requestedImageUri);
+            if (photoIntent.resolveActivity(getContext().getPackageManager()) != null) {
+                getActivity().startActivityForResult(photoIntent, REQUEST_IMAGE_CAPTURE);
+            }
+
         }
+
     }
 
 
@@ -175,24 +195,13 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
         List<File> files = new ArrayList<>();
         for (Map.Entry<Integer, Uri> entry: resIdImageUriMapping.entrySet()){
             if (entry != null && entry.getValue() != null)
-                files.add(new File(getRealPathFromURI(entry.getValue())));
+                files.add(new File(entry.getValue().getPath()));
         }
 
         return files;
     }
 
 
-    public String getRealPathFromURI(Uri uri) {
-        Cursor cursor = getContext().getContentResolver().query(uri, null, null, null, null);
-        if (cursor != null) {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            String path = cursor.getString(idx);
-            cursor.close();
-            return path;
-        }
-        return null;
-    }
 
 
     @Override
