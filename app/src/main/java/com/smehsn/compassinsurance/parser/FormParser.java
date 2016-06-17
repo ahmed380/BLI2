@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.smehsn.compassinsurance.R;
@@ -44,10 +43,7 @@ public class FormParser {
     private void scanViewTree(ViewGroup parent){
         for (int i=0; i<parent.getChildCount(); ++i){
             View child = parent.getChildAt(i);
-            if(child instanceof ViewGroup && !(child instanceof Spinner)){
-                scanViewTree((ViewGroup) child);
-            }
-            else if ( child.getTag() != null){
+            if ( child != null && child.getTag() != null){
                 String tag = (String) child.getTag();
                 try {
                     JSONObject config = new JSONObject(tag);
@@ -55,7 +51,10 @@ public class FormParser {
                 } catch (JSONException e) {
                     throw new IllegalArgumentException("Can't parse json tag for " + child.toString());
                 }
+            }else if (child != null && child instanceof ViewGroup){
+                scanViewTree((ViewGroup) child);
             }
+
         }
     }
 

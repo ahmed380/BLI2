@@ -7,6 +7,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.view.SegmentedEditText;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class ConvertStrategyProvider {
         strategyMap.put("spinner", new SpinnerConverter());
         strategyMap.put("ignore_default_spinner", new IgnoreDefaultSpinnerConverter());
         strategyMap.put("date_picker", new DateConverter());
+        strategyMap.put("segmented_edit_text", new SegmentedEditTextConverter());
     }
 
     public static StringConverter get(String name){
@@ -110,6 +112,18 @@ public class ConvertStrategyProvider {
         public String convertViewToString(View view) {
             if (view instanceof Spinner){
                 return ((Spinner) view).getSelectedItem().toString();
+            }
+            else throw new IllegalArgumentException( view.getTag() + ": cannot apply "+ this.getClass().getSimpleName()+ " stringConverter for this view");
+        }
+    }
+
+
+    private static final class SegmentedEditTextConverter implements StringConverter{
+
+        @Override
+        public String convertViewToString(View view) {
+            if (view instanceof SegmentedEditText){
+                return ((SegmentedEditText) view).getText("-");
             }
             else throw new IllegalArgumentException( view.getTag() + ": cannot apply "+ this.getClass().getSimpleName()+ " stringConverter for this view");
         }

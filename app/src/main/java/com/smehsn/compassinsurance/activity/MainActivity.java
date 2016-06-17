@@ -9,9 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
@@ -20,7 +17,6 @@ import com.smehsn.compassinsurance.util.Helper;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindViews;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -28,11 +24,10 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final int    REQUEST_PERMISSION_CODE = 123;
-    public  static final boolean DEBUG_MODE = false;
-    private static final Class  DEBUGGABLE_ACTIVITY = SettingsActivity.class;
+    public  static final boolean DEBUG_MODE = true;
+    private static final Class  DEBUGGABLE_ACTIVITY = MainActivity.class;
 
-    @BindViews({R.id.edit1, R.id.edit2, R.id.edit3})
-    List<EditText> inputs;
+
 
 
     @Override
@@ -49,36 +44,8 @@ public class MainActivity extends AppCompatActivity {
             routeActivities();
         }
 
-        initEditTexts();
-
     }
 
-    private void initEditTexts(){
-        for (int i=0; i<inputs.size(); ++i){
-            final EditText current = inputs.get(i);
-            final int currPos = i;
-            inputs.get(i).addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after){
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count){
-                    if (s.length() >= 3){
-                        EditText next = inputs.get(currPos + 1);
-                        if (next != null)
-                            next.requestFocus();
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-        }
-    }
 
 
     @OnClick(R.id.button)
@@ -110,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             activityClass = DEBUGGABLE_ACTIVITY;
         }
 
-        if (activityClass != null){
+        if (activityClass != null && activityClass != MainActivity.class){
             startActivity(new Intent(this, activityClass));
         }
 

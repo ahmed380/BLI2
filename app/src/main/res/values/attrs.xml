@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SegmentedEditText">
+        <attr name="segments" format="string"/>
+        <attr name="editTextView" format="reference"/>
+    </declare-styleable>
+</resources>

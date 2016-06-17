@@ -1,7 +1,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:background="#fff"
-    android:layout_height="match_parent">
+            android:layout_width="match_parent"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:background="#fff"
+            android:layout_height="match_parent">
 
     <LinearLayout style="@style/form_page_root_view">
 
@@ -48,10 +49,18 @@
             style="@style/form_label"
             android:text="@string/label_vin" />
 
-        <EditText
-            android:tag = '{ "label" :  "label_vin"  ,  "strategy": "edit_text"  ,   "validators": [ ]   ,   "labelView": "label_vin" }'
+        <com.smehsn.compassinsurance.view.SegmentedEditText
+            android:layout_marginLeft="@dimen/form_padding"
+            android:layout_marginStart="@dimen/form_padding"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:tag = '{ "label" :  "label_vin"  ,  "strategy": "segmented_edit_text"  ,   "validators": [ ]   ,   "labelView": "label_vin" }'
             android:id="@+id/vin"
-            style="@style/form_field" />
+            app:segments="3 6 8"
+            app:editTextView="@layout/boxed_edit_text"/>
 
 
 
