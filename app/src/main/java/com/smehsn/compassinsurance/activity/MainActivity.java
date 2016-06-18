@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private static final int    REQUEST_PERMISSION_CODE = 123;
-    public  static final boolean DEBUG_MODE = true;
+    public  static final boolean DEBUG_MODE = false;
     private static final Class  DEBUGGABLE_ACTIVITY = MainActivity.class;
 
 

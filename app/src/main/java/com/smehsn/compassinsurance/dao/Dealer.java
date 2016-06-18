@@ -4,13 +4,15 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.parser.FormValidationException;
+import com.smehsn.compassinsurance.parser.fragment.FormProvider;
 
 import java.util.Map;
 
 /**
  * @author Sam
  */
-public class Dealer {
+public class Dealer implements FormProvider{
     private static Dealer instance;
     public static final String PREF_NAME = "dealer_info";
     private SharedPreferences prefs;
@@ -27,9 +29,6 @@ public class Dealer {
         prefs = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
     }
 
-    public Map<String, String> getInfo(){
-        return (Map<String, String>) prefs.getAll();
-    }
 
     public void saveDealerInfo(Map<String, String> data){
         SharedPreferences.Editor editor  =  prefs.edit();
@@ -63,4 +62,13 @@ public class Dealer {
         return (prefs.getString(context.getString(R.string.label_dealerName), null) != null);
     }
 
+    @Override
+    public Map<String, String> validateAndGetForm() throws FormValidationException {
+        return (Map<String, String>) prefs.getAll();
+    }
+
+    @Override
+    public String getFormTitle() {
+        return null;
+    }
 }

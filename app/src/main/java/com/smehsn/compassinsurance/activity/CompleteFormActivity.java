@@ -206,7 +206,7 @@ public class CompleteFormActivity extends AppCompatActivity {
             }
             FormProvider formProvider = (FormProvider) fragment;
             try {
-                Map<String, String> form = formProvider.parseForm();
+                Map<String, String> form = formProvider.validateAndGetForm();
                 formData.put(
                         viewPagerAdapter.getPageTitle(position).toString(),
                         form
@@ -267,12 +267,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         progressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_FRAGMENT_TAG);
         emailClient.sendAsync(email);
     }
-
-
-    private String buildEmailBody(Map<Integer, Object> positionToModelMapping) {
-        return null;
-    }
-
+    
 
 
 

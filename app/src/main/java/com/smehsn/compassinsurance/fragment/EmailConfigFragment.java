@@ -58,7 +58,7 @@ public class EmailConfigFragment extends FormHostingFragment {
     @OnClick(R.id.testConnection)
     void onTestButtonClicked(){
         try {
-            parseForm();
+            validateAndGetForm();
             sendEmail();
         } catch (FormValidationException e) {
             Snackbar.make(rootView, e.getErrorMessage(), Snackbar.LENGTH_LONG).show();
@@ -156,8 +156,8 @@ public class EmailConfigFragment extends FormHostingFragment {
     }
 
     @Override
-    public Map<String, String> parseForm() throws FormValidationException {
-        setWasParseRequested(true);
+    public Map<String, String> validateAndGetForm() throws FormValidationException {
+        setValidateRequested(true);
         parser.parse();
         return null;
     }

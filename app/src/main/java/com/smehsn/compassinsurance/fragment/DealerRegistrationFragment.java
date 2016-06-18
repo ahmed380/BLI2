@@ -49,7 +49,7 @@ public class DealerRegistrationFragment extends FormHostingFragment {
     @OnClick(R.id.saveDealer)
     void saveDealer(){
         try{
-            parseForm();
+            validateAndGetForm();
             dealer.setAddress(dealerAddress.getText().toString());
             dealer.setEmail(dealerEmail.getText().toString());
             dealer.setFax(dealerFax.getText().toString());
@@ -92,8 +92,8 @@ public class DealerRegistrationFragment extends FormHostingFragment {
     }
 
     @Override
-    public Map<String, String> parseForm() throws FormValidationException {
-        setWasParseRequested(true);
+    public Map<String, String> validateAndGetForm() throws FormValidationException {
+        setValidateRequested(true);
         formParser.parse();
         return null;
     }

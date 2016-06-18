@@ -201,7 +201,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
 
 
     @Override
-    public Map<String, String> parseForm() throws FormValidationException {
+    public Map<String, String> validateAndGetForm() throws FormValidationException {
         Map<String, String> form = new LinkedHashMap<>();
         form.put(getString(R.string.label_drivingLicensePhoto), (imageLicense.getDrawable() == null ? "blank" : "See attachments email"));
         return form;

@@ -6,6 +6,6 @@ import java.util.Map;
 
 
 public interface FormProvider {
-    Map<String, String> parseForm() throws FormValidationException;
+    Map<String, String> validateAndGetForm() throws FormValidationException;
     String getFormTitle();
 }

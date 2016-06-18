@@ -84,7 +84,7 @@ public class DriverInfoFormFragment extends FormHostingFragment {
 
 
     @Override
-    public Map<String, String> parseForm() throws FormValidationException {
+    public Map<String, String> validateAndGetForm() throws FormValidationException {
         return parser.parse();
     }
 

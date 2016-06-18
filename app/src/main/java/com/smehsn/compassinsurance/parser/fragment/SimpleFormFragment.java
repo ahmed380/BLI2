@@ -49,8 +49,8 @@ public final class SimpleFormFragment extends FormHostingFragment {
 
 
     @Override
-    public Map<String, String> parseForm() throws FormValidationException {
-        super.setWasParseRequested(true);
+    public Map<String, String> validateAndGetForm() throws FormValidationException {
+        super.setValidateRequested(true);
         return formParser.parse();
     }
 

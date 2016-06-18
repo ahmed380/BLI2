@@ -13,7 +13,7 @@ import icepick.State;
  * @author Sam
  */
 public abstract class FormHostingFragment extends Fragment implements FormProvider{
-    @State boolean wasParseRequested = false;
+    @State boolean validateRequested = false;
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -26,17 +26,15 @@ public abstract class FormHostingFragment extends Fragment implements FormProvid
         super.onViewStateRestored(savedInstanceState);
         Icepick.restoreInstanceState(this, savedInstanceState);
 
-        if (wasParseRequested){
+        if (validateRequested){
             try {
-                parseForm();
+                validateAndGetForm();
             } catch (FormValidationException ignored) {}
         }
     }
 
-
-
-    public void setWasParseRequested(boolean val){
-        this.wasParseRequested = val;
+    public void setValidateRequested(boolean val){
+        this.validateRequested = val;
     }
 
 
