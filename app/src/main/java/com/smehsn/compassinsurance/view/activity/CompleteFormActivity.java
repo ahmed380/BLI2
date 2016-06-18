@@ -21,10 +21,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
+import com.smehsn.compassinsurance.view.adapter.FormPagerAdapter;
 import com.smehsn.compassinsurance.data.dao.Dealer;
 import com.smehsn.compassinsurance.data.dao.EmailConfig;
-import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
+import com.smehsn.compassinsurance.view.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
 import com.smehsn.compassinsurance.email.EmailFinishedEvent;

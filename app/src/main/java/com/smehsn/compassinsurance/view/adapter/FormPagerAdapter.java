@@ -5,8 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.smehsn.compassinsurance.fragment.DriverInfoFormFragment;
-import com.smehsn.compassinsurance.fragment.PhotoAttachmentFragment;
+import com.smehsn.compassinsurance.view.fragment.DriverInfoFormFragment;
+import com.smehsn.compassinsurance.view.fragment.PhotoAttachmentFragment;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.parser.fragment.SimpleFormFragment;
 
@@ -19,7 +19,6 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
             "Driver Information",
             "Vehicle Coverages",
             "Photo Attachments"
-
     };
     private static final int ITEMS_COUNT = PAGE_TITLES.length;
 

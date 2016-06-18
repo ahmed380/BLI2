@@ -2,7 +2,7 @@ package com.smehsn.compassinsurance.email;
 
 import android.os.AsyncTask;
 
-import com.smehsn.compassinsurance.activity.MainActivity;
+import com.smehsn.compassinsurance.view.activity.MainActivity;
 import com.squareup.otto.Bus;
 import com.squareup.otto.ThreadEnforcer;
 

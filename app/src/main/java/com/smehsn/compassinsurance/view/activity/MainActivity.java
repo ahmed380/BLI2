@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
+import com.smehsn.compassinsurance.data.client.CarApiClientProvider;
+import com.smehsn.compassinsurance.data.dao.ApiConfig;
+import com.smehsn.compassinsurance.data.model.CarMake;
 import com.smehsn.compassinsurance.util.Helper;
 
 import java.util.ArrayList;
@@ -19,6 +22,9 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
@@ -69,6 +75,21 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.loadCars)
     void loadCars(){
+        ApiConfig           config  = ApiConfig.getInstance(this);
+        String              apiKey  = config.getApiKey();
+        Call<List<CarMake>> apiCall = CarApiClientProvider.getService().getCarMakeData(apiKey);
+
+        apiCall.enqueue(new Callback<List<CarMake>>() {
+            @Override
+            public void onResponse(Call<List<CarMake>> call, Response<List<CarMake>> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<List<CarMake>> call, Throwable t) {
+                t.printStackTrace();
+            }
+        });
 
     }
 

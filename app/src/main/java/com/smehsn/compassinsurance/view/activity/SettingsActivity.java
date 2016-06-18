@@ -11,8 +11,8 @@ import android.widget.Toast;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.data.dao.Dealer;
 import com.smehsn.compassinsurance.data.dao.EmailConfig;
-import com.smehsn.compassinsurance.fragment.DealerRegistrationFragment;
-import com.smehsn.compassinsurance.fragment.EmailConfigFragment;
+import com.smehsn.compassinsurance.view.fragment.DealerRegistrationFragment;
+import com.smehsn.compassinsurance.view.fragment.EmailConfigFragment;
 import com.smehsn.compassinsurance.view.LockableViewPager;
 
 import butterknife.BindView;

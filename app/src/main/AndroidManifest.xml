@@ -19,9 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.smehsn.compassinsurance.activity.CompleteFormActivity">
+            android:name=".view.activity.CompleteFormActivity">
         </activity>
-        <activity android:name="com.smehsn.compassinsurance.activity.MainActivity">
+        <activity android:name=".view.activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
@@ -29,7 +29,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.smehsn.compassinsurance.activity.SettingsActivity"
+            android:name=".view.activity.SettingsActivity"
             android:label="Admin Configuration">
         </activity>
 
