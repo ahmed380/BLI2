@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.adapter;
+package com.smehsn.compassinsurance.view.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;

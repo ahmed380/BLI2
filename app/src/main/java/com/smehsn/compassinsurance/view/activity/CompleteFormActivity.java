@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.activity;
+package com.smehsn.compassinsurance.view.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,8 +22,8 @@ import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.adapter.FormPagerAdapter;
-import com.smehsn.compassinsurance.dao.Dealer;
-import com.smehsn.compassinsurance.dao.EmailConfig;
+import com.smehsn.compassinsurance.data.dao.Dealer;
+import com.smehsn.compassinsurance.data.dao.EmailConfig;
 import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
@@ -68,9 +68,6 @@ public class CompleteFormActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
         setContentView(R.layout.activity_complete_form);
         ButterKnife.bind(this);
         initBeans();
@@ -241,7 +238,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         String message = event.isSuccess() ?  "Form submitted successfully": "Error submitting form, ";
         if (!event.isSuccess()){
             if (Helper.internetIsConnected(this))
-                message += "program has bugs!!";
+                message += "please try again";
             else
                 message += "please check your connection";
         }
@@ -267,7 +264,7 @@ public class CompleteFormActivity extends AppCompatActivity {
         progressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_FRAGMENT_TAG);
         emailClient.sendAsync(email);
     }
-    
+
 
 
 

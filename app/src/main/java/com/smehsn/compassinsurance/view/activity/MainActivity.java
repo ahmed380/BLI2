@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.activity;
+package com.smehsn.compassinsurance.view.activity;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -63,6 +63,13 @@ public class MainActivity extends AppCompatActivity {
         else {
             Toast.makeText(MainActivity.this, "Application is already configured", Toast.LENGTH_SHORT).show();
         }
+    }
+
+
+
+    @OnClick(R.id.loadCars)
+    void loadCars(){
+
     }
 
     private void routeActivities() {

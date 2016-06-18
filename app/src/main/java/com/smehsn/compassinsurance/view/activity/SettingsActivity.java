@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.activity;
+package com.smehsn.compassinsurance.view.activity;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,8 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.dao.Dealer;
-import com.smehsn.compassinsurance.dao.EmailConfig;
+import com.smehsn.compassinsurance.data.dao.Dealer;
+import com.smehsn.compassinsurance.data.dao.EmailConfig;
 import com.smehsn.compassinsurance.fragment.DealerRegistrationFragment;
 import com.smehsn.compassinsurance.fragment.EmailConfigFragment;
 import com.smehsn.compassinsurance.view.LockableViewPager;

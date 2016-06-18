@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.dialog;
+package com.smehsn.compassinsurance.view.dialog;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;

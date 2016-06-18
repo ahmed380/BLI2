@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.dialog;
+package com.smehsn.compassinsurance.view.dialog;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;

@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.fragment;
+package com.smehsn.compassinsurance.view.fragment;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -12,8 +12,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.dao.EmailConfig;
-import com.smehsn.compassinsurance.dialog.ProgressDialogFragment;
+import com.smehsn.compassinsurance.data.dao.EmailConfig;
+import com.smehsn.compassinsurance.view.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
 import com.smehsn.compassinsurance.email.EmailFinishedEvent;

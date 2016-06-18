@@ -1,4 +1,4 @@
-package com.smehsn.compassinsurance.fragment;
+package com.smehsn.compassinsurance.view.fragment;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -14,7 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.dao.Dealer;
+import com.smehsn.compassinsurance.data.dao.Dealer;
 import com.smehsn.compassinsurance.parser.AttachmentProvider;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;
