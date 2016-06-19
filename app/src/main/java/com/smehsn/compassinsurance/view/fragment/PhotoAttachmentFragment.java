@@ -14,8 +14,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.data.dao.Dealer;
+import com.smehsn.compassinsurance.data.pref.Dealer;
 import com.smehsn.compassinsurance.parser.AttachmentProvider;
+import com.smehsn.compassinsurance.parser.FormParser;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;
 import com.squareup.picasso.Callback;
@@ -44,6 +45,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     private Map<Integer, Uri> resIdImageUriMapping = new HashMap<>();
     private View rootView;
     private Dealer dealer;
+    private FormParser formParser;
     @State String pageTitle;
     @State String currentRequestedAction;
     @State Uri requestedImageUri;
@@ -56,7 +58,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     }
 
 
-    public static PhotoAttachmentFragment newInstance(String pageTitle, int position) {
+    public static PhotoAttachmentFragment newInstance(String pageTitle) {
         PhotoAttachmentFragment fragment = new PhotoAttachmentFragment();
         fragment.pageTitle = pageTitle;
         return fragment;
@@ -116,6 +118,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
         super.onCreateView(inflater, container, savedInstanceState);
         restoreState(savedInstanceState);
         rootView = inflater.inflate(R.layout.form_photo_attachment, container, false);
+        formParser = new FormParser(getContext(), rootView);
         ButterKnife.bind(this, rootView);
         restoreImagesState();
         return rootView;
@@ -124,7 +127,7 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
 
     @OnClick({
             R.id.image_drivingLicensePhoto,
-            R.id.action_drivingLicensePhoto
+            R.id.image_vinNumberPhoto
     })
     public void onTakeImageAction(View v) {
         currentRequestedAction = (String) v.getTag();
@@ -203,7 +206,21 @@ public class PhotoAttachmentFragment extends FormHostingFragment implements Atta
     @Override
     public Map<String, String> validateAndGetForm() throws FormValidationException {
         Map<String, String> form = new LinkedHashMap<>();
-        form.put(getString(R.string.label_drivingLicensePhoto), (imageLicense.getDrawable() == null ? "blank" : "See attachments email"));
+
+        for (Map.Entry<Integer, Uri> entry: resIdImageUriMapping.entrySet()){
+            ImageView imageView = (ImageView) rootView.findViewById(entry.getKey());
+            String action = (String) imageView.getTag();
+            int labelId = this.getResources().getIdentifier(
+                    "label_" + action,
+                    "string",
+                    getContext().getPackageName());
+            String label =  getString(labelId);
+
+            form.put(label, "See email attachment");
+        }
+
+        form.putAll(formParser.parse());
+
         return form;
     }
 

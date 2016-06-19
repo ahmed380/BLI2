@@ -48,9 +48,7 @@ public class FormParser {
                 try {
                     JSONObject config = new JSONObject(tag);
                     handleConfig(child, config);
-                } catch (JSONException e) {
-                    throw new IllegalArgumentException("Can't parse json tag for " + child.toString());
-                }
+                } catch (JSONException ignore) {}
             }else if (child != null && child instanceof ViewGroup){
                 scanViewTree((ViewGroup) child);
             }

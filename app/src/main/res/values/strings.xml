@@ -90,12 +90,17 @@
     <string name="photo_action_prompt">Tap to take a photo</string>
     <string name="action_settings">Settings</string>
     <string name="submit_prompt">Get Instant Free Quote</string>
+    <string name="confirm_prompt">Tap confirm to get your free code</string>
+
+
+
     <string name="label_clientEmail">Client Email</string>
     <string name="label_clientPassword">Client Email Password</string>
     <string name="label_testEmail">Send test email</string>
     <string name="label_recipientEmail">Recipient email</string>
     <string name="label_save">Save</string>
     <string name="label_settings">Settings</string>
+    <string name="label_comments">Additional notes</string>
 
 
 </resources>

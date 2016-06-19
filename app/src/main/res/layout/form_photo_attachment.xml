@@ -9,17 +9,38 @@
             style="@style/form_label"
             android:text="@string/label_drivingLicensePhoto"
             android:id="@+id/label_drivingLicensePhoto"/>
-        <Button
-            android:tag="drivingLicensePhoto"
-            android:text="@string/photo_action_prompt"
-            style="@style/form_action_button"
-            android:id="@+id/action_drivingLicensePhoto"/>
+
         <ImageView
-            android:background="#eee"
-            android:visibility="gone"
+            android:src="@drawable/placeholder_driving_license"
             android:tag="drivingLicensePhoto"
             style="@style/form_attachment_image"
             android:id="@+id/image_drivingLicensePhoto"/>
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_vinNumberPhoto"
+            android:id="@+id/label_vinNumberPhoto"/>
+
+        <ImageView
+            android:src="@drawable/placeholder_vin_number"
+            android:tag="vinNumberPhoto"
+            style="@style/form_attachment_image"
+            android:id="@+id/image_vinNumberPhoto"/>
+
+
+
+        <TextView
+            style="@style/form_label"
+            android:text="@string/label_comments"
+            android:id="@+id/label_comments"/>
+
+        <EditText
+            android:maxLines="10"
+            style="@style/form_field"
+            android:id="@+id/comments"
+            android:tag='{ "label" :  "label_comments"  ,  "strategy": "edit_text"  ,   "validators": []   ,   "labelView": "label_comments" }'/>
+
 
 
 

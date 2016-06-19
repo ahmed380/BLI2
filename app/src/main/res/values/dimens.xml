@@ -11,6 +11,7 @@
     <dimen name="form_label_vertical_padding">4dp</dimen>
     <dimen name="form_label_vertical_margin">10dp</dimen>
     <dimen name="form_input_text_size">16sp</dimen>
+    <dimen name="dialogWidth">300dp</dimen>
 
 
 </resources>

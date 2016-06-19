@@ -5,8 +5,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.TextUtils;
 
-import com.smehsn.compassinsurance.data.dao.Dealer;
-import com.smehsn.compassinsurance.data.dao.EmailConfig;
+import com.smehsn.compassinsurance.data.pref.Dealer;
+import com.smehsn.compassinsurance.data.pref.EmailConfig;
 
 import java.util.Map;
 

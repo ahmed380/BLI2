@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.data.dao.EmailConfig;
+import com.smehsn.compassinsurance.data.pref.EmailConfig;
 import com.smehsn.compassinsurance.view.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;

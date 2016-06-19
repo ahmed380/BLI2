@@ -22,8 +22,9 @@ import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.view.adapter.FormPagerAdapter;
-import com.smehsn.compassinsurance.data.dao.Dealer;
-import com.smehsn.compassinsurance.data.dao.EmailConfig;
+import com.smehsn.compassinsurance.data.pref.Dealer;
+import com.smehsn.compassinsurance.data.pref.EmailConfig;
+import com.smehsn.compassinsurance.view.dialog.ConfirmDialog;
 import com.smehsn.compassinsurance.view.dialog.ProgressDialogFragment;
 import com.smehsn.compassinsurance.email.Email;
 import com.smehsn.compassinsurance.email.EmailClient;
@@ -45,9 +46,10 @@ import butterknife.ButterKnife;
 import butterknife.OnPageChange;
 
 
-public class CompleteFormActivity extends AppCompatActivity {
-    private static final String TAG                       = CompleteFormActivity.class.getSimpleName();
+public class CompleteFormActivity extends AppCompatActivity implements ConfirmDialog.OnConfirmListener{
+    private static final String TAG                          = CompleteFormActivity.class.getSimpleName();
     private static final String PROGRESS_DIALOG_FRAGMENT_TAG = "progressDialog";
+    private static final String CONFIRM_DIALOG_TAG              = "confirm_dialog";
 
     @BindView(R.id.viewPager)
     ViewPager viewPager;
@@ -175,7 +177,7 @@ public class CompleteFormActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.send:
-                onTryToSubmitForm();
+                onTryToSubmitForm(true);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -189,7 +191,7 @@ public class CompleteFormActivity extends AppCompatActivity {
 
 
 
-    private void onTryToSubmitForm() {
+    private void onTryToSubmitForm(boolean validateOnly) {
         FragmentManager fm  = getSupportFragmentManager();
         Map<String, Map<String , String>> formData= new LinkedHashMap<>();
         String errorMessage = null;
@@ -219,7 +221,10 @@ public class CompleteFormActivity extends AppCompatActivity {
         if (errorMessage != null){
             viewPager.setCurrentItem(errorPagePosition);
             Snackbar.make(drawerLayout, errorMessage, Snackbar.LENGTH_LONG).show();
-        }else {
+        }else if (validateOnly){
+            ConfirmDialog confirmDialog = new ConfirmDialog();
+            confirmDialog.show(getSupportFragmentManager(), CONFIRM_DIALOG_TAG);
+        }else{
             Email email = new Email()
                     .setBody(Helper.createEmailBody(formData))
                     .setSubject(dealer.getName() + " : " + new Date().toString())
@@ -256,6 +261,12 @@ public class CompleteFormActivity extends AppCompatActivity {
 
 
 
+    @Override
+    public void onConfirm() {
+        onTryToSubmitForm(false);
+    }
+
+
     private void sendEmail(Email email) {
         Bundle params = new Bundle();
         params.putString("title", "Sending email...");
@@ -264,9 +275,4 @@ public class CompleteFormActivity extends AppCompatActivity {
         progressDialog.show(getSupportFragmentManager(), PROGRESS_DIALOG_FRAGMENT_TAG);
         emailClient.sendAsync(email);
     }
-
-
-
-
-
 }

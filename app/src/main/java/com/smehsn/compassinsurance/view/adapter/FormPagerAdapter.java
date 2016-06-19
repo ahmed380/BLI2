@@ -5,23 +5,27 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.ViewGroup;
 
-import com.smehsn.compassinsurance.view.fragment.DriverInfoFormFragment;
-import com.smehsn.compassinsurance.view.fragment.PhotoAttachmentFragment;
 import com.smehsn.compassinsurance.R;
 import com.smehsn.compassinsurance.parser.fragment.SimpleFormFragment;
+import com.smehsn.compassinsurance.view.fragment.DriverInfoFormFragment;
+import com.smehsn.compassinsurance.view.fragment.PhotoAttachmentFragment;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class FormPagerAdapter extends FragmentPagerAdapter {
 
     public static final String[] PAGE_TITLES = new String[]{
+            "Photo Attachments",
             "Insured information",
             "Vehicle Information",
             "Driver Information",
             "Vehicle Coverages",
-            "Photo Attachments"
     };
     private static final int ITEMS_COUNT = PAGE_TITLES.length;
 
+    private List<Fragment> fragmentList;
 
 
     public FormPagerAdapter(FragmentManager fm) {
@@ -38,21 +42,21 @@ public class FormPagerAdapter extends FragmentPagerAdapter {
         return PAGE_TITLES[position];
     }
 
+    private void initFragmentList(){
+        fragmentList = new ArrayList<>();
+        fragmentList.add(PhotoAttachmentFragment.newInstance(PAGE_TITLES[0]));
+        fragmentList.add(SimpleFormFragment.newInstance(R.layout.form_insured_info, PAGE_TITLES[1]));
+        fragmentList.add(SimpleFormFragment.newInstance(R.layout.form_vehicle_info, PAGE_TITLES[2]));
+        fragmentList.add(DriverInfoFormFragment.newInstance( PAGE_TITLES[3]));
+        fragmentList.add(SimpleFormFragment.newInstance(R.layout.form_vehicle_coverages, PAGE_TITLES[4]));
+    }
+
     @Override
     public Fragment getItem(int position) {
-        switch (position){
-            case 0:
-                return SimpleFormFragment.newInstance(R.layout.form_insured_info, PAGE_TITLES[position]);
-            case 1:
-                return SimpleFormFragment.newInstance(R.layout.form_vehicle_info, PAGE_TITLES[position]);
-            case 2:
-                return DriverInfoFormFragment.newInstance( PAGE_TITLES[position]);
-            case 3:
-                return SimpleFormFragment.newInstance(R.layout.form_vehicle_coverages, PAGE_TITLES[position]);
-            case 4:
-                return PhotoAttachmentFragment.newInstance(PAGE_TITLES[position], position);
+        if (fragmentList == null){
+            initFragmentList();
         }
-        return null;
+        return fragmentList.get(position);
     }
 
     @Override

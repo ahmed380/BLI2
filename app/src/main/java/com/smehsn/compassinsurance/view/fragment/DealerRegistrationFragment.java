@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.data.dao.Dealer;
+import com.smehsn.compassinsurance.data.pref.Dealer;
 import com.smehsn.compassinsurance.parser.FormParser;
 import com.smehsn.compassinsurance.parser.FormValidationException;
 import com.smehsn.compassinsurance.parser.fragment.FormHostingFragment;

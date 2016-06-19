@@ -9,26 +9,25 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.smehsn.compassinsurance.R;
-import com.smehsn.compassinsurance.data.client.CarApiClientProvider;
-import com.smehsn.compassinsurance.data.dao.ApiConfig;
-import com.smehsn.compassinsurance.data.model.CarMake;
+import com.smehsn.compassinsurance.data.pref.AdminConfig;
 import com.smehsn.compassinsurance.util.Helper;
+import com.smehsn.compassinsurance.view.dialog.LoginDialog;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LoginDialog.OnLoginCompleteListener{
     private static final String TAG = MainActivity.class.getSimpleName();
-
+    private static final String LOGIN_DIALOG_TAG = "login_dialog";
     private static final int    REQUEST_PERMISSION_CODE = 123;
     public  static final boolean DEBUG_MODE = false;
     private static final Class  DEBUGGABLE_ACTIVITY = MainActivity.class;
@@ -62,44 +61,12 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, "Please configure the application", Toast.LENGTH_SHORT).show();
     }
 
-    @OnClick(R.id.button2)
-    void onOpenSettings(){
-        if (!Helper.isAppConfigured(this))
-            startActivity(new Intent(MainActivity.this, SettingsActivity.class));
-        else {
-            Toast.makeText(MainActivity.this, "Application is already configured", Toast.LENGTH_SHORT).show();
-        }
-    }
 
-
-
-    @OnClick(R.id.loadCars)
-    void loadCars(){
-        ApiConfig           config  = ApiConfig.getInstance(this);
-        String              apiKey  = config.getApiKey();
-        Call<List<CarMake>> apiCall = CarApiClientProvider.getService().getCarMakeData(apiKey);
-
-        apiCall.enqueue(new Callback<List<CarMake>>() {
-            @Override
-            public void onResponse(Call<List<CarMake>> call, Response<List<CarMake>> response) {
-
-            }
-
-            @Override
-            public void onFailure(Call<List<CarMake>> call, Throwable t) {
-                t.printStackTrace();
-            }
-        });
-
-    }
 
     private void routeActivities() {
 
         Class activityClass = null;
 
-        if(!Helper.isAppConfigured(this)){
-            activityClass = SettingsActivity.class;
-        }
 
         if(DEBUG_MODE && DEBUGGABLE_ACTIVITY != null){
             activityClass = DEBUGGABLE_ACTIVITY;
@@ -109,6 +76,41 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(this, activityClass));
         }
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main_activity_menu, menu);
+        return true;
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.settings:
+                openLoginDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openLoginDialog() {
+        LoginDialog dialog = new LoginDialog();
+        dialog.show(getSupportFragmentManager(), LOGIN_DIALOG_TAG);
+    }
+
+    @Override
+    public void onLoginComplete(String username, String password) {
+        AdminConfig adminConfig = AdminConfig.getInstance(this);
+        if (adminConfig.isAuthenticated(username, password)){
+            SettingsActivity.launch(this, username, password);
+        }else{
+            Toast.makeText(MainActivity.this, "Wrong admin credentials", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -134,7 +136,6 @@ public class MainActivity extends AppCompatActivity {
         }
         return !unallowedPermissions;
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
